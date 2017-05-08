@@ -1,0 +1,88 @@
+<!--
+  Generated template for the MapsTabSearch page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Search</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+	<ion-toolbar>
+        <ion-item >
+        	<ion-searchbar
+			  [(ngModel)]="addressQuery"
+			  [showCancelButton]="shouldShowCancel"
+			  (ionInput)="onInput($event)"
+			  (ionCancel)="onCancel($event)"
+			  [placeholder]="searchBarPlaceHolder"
+			  [debounce]=500>
+			</ion-searchbar>
+
+          <!-- <ion-input placeholder="Write a comment" [(ngModel)]="addressQuery"></ion-input> -->
+
+	        <button *ngIf="!showSearchSpinner" ion-button light icon-left item-right outline icon-left color="primary" (click)="searchAddress()">
+		      <!-- <ion-icon name='ios-search'></ion-icon> -->
+		      Search
+		    </button>
+          
+			<button *ngIf="showSearchSpinner" item-right clear icon-left style="background-color: #fff;">
+				<ion-spinner color="primary" name="ios"></ion-spinner>
+			</button>
+
+        </ion-item>
+  	</ion-toolbar>
+
+	<ion-card>
+
+	  <div class="map-container">
+          <ion-fab right top>
+		    <button ion-fab>
+		      <ion-icon name="ios-locate-outline"></ion-icon>
+		    </button>
+		  </ion-fab>
+          <div id="map" style="width: 100%; height: 100%">
+          </div>
+      </div>
+		  
+
+	  <ion-item>
+	    <ion-spinner item-right large *ngIf="loadingLocationDetails" color="primary" name="ios"></ion-spinner>
+	    <button ion-button icon-only clear item-right *ngIf="!loadingLocationDetails" (click)="onShowLocationDetails()">
+	      <ion-icon name="md-more"></ion-icon>
+	    </button>
+	    <h2>{{currentLocationDetails['display_name']}}</h2>
+	  </ion-item>
+	  
+	  <ion-card *ngIf="showLocationDetails">
+		<ion-card-content>
+	  		<p><b>House#: </b> {{currentLocationDetails['address']?.house_number}} <b>Road: </b> {{currentLocationDetails['address']?.road}}</p> 
+	  		<hr>
+		  	<p><b>Retail: </b> {{currentLocationDetails['address']?.retail}}</p> <hr>
+		  	<p><b>Suburb: </b> {{currentLocationDetails['address']?.suburb}} <b>City: </b> {{currentLocationDetails['address']?.city}} <b>State: </b> {{currentLocationDetails['address']?.state}}</p> <hr>
+		  	<p><b>Country: </b> {{currentLocationDetails['address']?.country}} <b>Country Code: </b> {{currentLocationDetails['address']?.country_code}}</p>
+
+		  	<hr>
+
+		  	<p><b>Lat: </b> {{currentLocationDetails['lat']}}</p>
+		  	<p><b>Lon: </b> {{currentLocationDetails['lon']}}</p>
+		</ion-card-content>
+	  </ion-card>
+
+	  <ion-item>
+	    <button ion-button icon-left clear item-right>
+	      <ion-icon name="navigate"></ion-icon>
+	      Navigate
+	    </button>
+	  </ion-item>
+
+	</ion-card>
+
+</ion-content>

@@ -1,0 +1,29 @@
+<!-- app.component.html
+// in same directory as app.component.ts -->
+ 
+<!-- this menu section should hold what content and destine to where
+// at what point in time?
+// That is determined by the last line in this -->
+<ion-menu [content]="content">
+ 
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+ 
+  <ion-content>
+    <ion-list>
+      <!-- remember the `this.pages` object we created in `app.js`?
+      // Iterate through, then when clicked, run the associated function
+      // passing in the #p item. 
+      // changed #p to let p instead -->
+      <button ion-item menuToggle *ngFor="let p of pages" (click)="openPage(p)">
+        {{p.title}}
+      </button>
+    </ion-list>
+  </ion-content>
+ 
+</ion-menu>
+<!-- What's my root? remember the this.rootPage? -->
+<ion-nav id="nav" [root]="rootPage" #content swipe-back-enabled="false"></ion-nav>

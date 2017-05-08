@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "aws-sdk": "registry:dt/aws-sdk#0.0.0+20161119044246"
+  }
+}
