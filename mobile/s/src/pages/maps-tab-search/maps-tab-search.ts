@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 
 import { MapsService } from '../../providers/maps-service';
 import { Geolocation } from '@ionic-native/geolocation';
+import { AlertsService } from '../../providers/alerts-service';
+// import { LoggerService } from '../../providers/logger-service';
+
 import L from "leaflet";
 
 /**
@@ -28,12 +31,21 @@ export class MapsTabSearch {
 
 	map: L.Map;
 	center: L.PointTuple;
+	public promptObj = {};
 
 	constructor(
 		public navCtrl: NavController, 
 		public navParams: NavParams,
-		public mapsService: MapsService
-	) {}
+		public mapsService: MapsService,
+		public alertsService: AlertsService,
+		public alertCtrl: AlertController,
+		public modalCtrl: ModalController,
+		// private logger: LoggerService
+		
+	) {
+		this.promptObj['alertCtrl'] = this.alertCtrl;
+		this.promptObj['modalCtrl'] = this.modalCtrl;
+	}
 
 	ionViewDidLoad() {
 		let me = this;
@@ -74,18 +86,29 @@ export class MapsTabSearch {
 		let me = this;
 		me.showSearchSpinner = !me.showSearchSpinner;
 		me.mapsService.searchAddress(me.addressQuery).then((data)=>{
-			console.log(data);
+			// me.logger.log.debug(data);
 			me.showSearchSpinner = !me.showSearchSpinner;
+			let alert = me.mapsService.getPromptForSearch(me.promptObj, data, {
+				moreHandler: data => {
+	            	console.log(data + ' clicked');
+	          	},
+	          	confirmHandler: data => {
+	            	console.log(data + ' clicked');
+	          	},
+			});
+
+			alert.present();
 		}).catch((error)=>{
 			me.showSearchSpinner = !me.showSearchSpinner;
 		});
 	}
 
+	// initially load users current location on the map 
 	reverseSearchAddress(lat,lon){
 		let me = this;
 		me.loadingLocationDetails = !me.loadingLocationDetails;
 		me.mapsService.reverseSearchAddress(lat,lon).then((data)=>{
-			me.currentLocationDetails = JSON.parse(data["Payload"]);
+			me.currentLocationDetails = data["Payload"];
 			me.loadingLocationDetails = !me.loadingLocationDetails;
 		}).catch((error)=>{
 			me.loadingLocationDetails = !me.loadingLocationDetails;

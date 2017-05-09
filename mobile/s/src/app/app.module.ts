@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
+import {Logger} from 'angular2-logger/core';
 
 import { MyApp } from './app.component';
 
@@ -22,6 +23,9 @@ import { Settings } from '../pages/settings/settings';
 
 import { AuthService } from '../providers/auth-service';
 import { MapsService } from '../providers/maps-service';
+import { AlertsService } from '../providers/alerts-service';
+import { ModalService } from '../providers/modal-service';
+// import { LoggerService } from '../providers/logger-service';
 
 
 @NgModule({
@@ -61,7 +65,11 @@ import { MapsService } from '../providers/maps-service';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
     MapsService,
-    Geolocation
+    Geolocation,
+    AlertsService,
+    ModalService,
+    // LoggerService,
+    // Logger
   ]
 })
 export class AppModule {}

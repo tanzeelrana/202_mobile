@@ -1,7 +1,8 @@
 import * as AWS from 'aws-sdk';
 
 export let data = {
-    "awsConfig" : initAWS
+    "awsConfig" : initAWS,
+    "LogLevel" : "DEBUG"
 }
 
 export function initAWS(){
