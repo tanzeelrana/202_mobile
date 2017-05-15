@@ -8,7 +8,7 @@ import { MapsTab } from '../pages/maps-tab/maps-tab';
 import { Settings } from '../pages/settings/settings';
 import { Account } from '../pages/account/account';
 
-import *  as AppConfig from './app.config';
+import * as appConfig from '../app/app.config';
 
 @Component({
   templateUrl: 'app.html'
@@ -23,10 +23,10 @@ export class MyApp {
   constructor(
     platform: Platform, 
     statusBar: StatusBar, 
-    splashScreen: SplashScreen
+    splashScreen: SplashScreen,
   ) {
     
-    AppConfig.initAWS();
+    appConfig.config.initAWS();
     
     platform.ready().then(() => {
       statusBar.styleDefault();

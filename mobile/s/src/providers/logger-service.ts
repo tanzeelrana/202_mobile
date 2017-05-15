@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
-import {Logger} from "angular2-logger/core";
-import *  as Config from '../app/app.config';
+import { Logger} from "angular2-logger/core";
+import * as appConfig from '../app/app.config';
 
 /*
   Generated class for the LoggerService provider.
@@ -14,10 +14,12 @@ export class LoggerService {
 
   public log: Logger;
 
-  constructor(public logger: Logger) {
+  constructor(
+    public logger: Logger
+  ) {
     this.log = this.logger;
     // Set the log level using the config value
-    switch(Config.data.LogLevel) {
+    switch(appConfig.config.getLogLevel()) {
       case "OFF":
         this.log.level = this.logger.Level.OFF;
         break;

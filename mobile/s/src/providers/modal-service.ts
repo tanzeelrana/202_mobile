@@ -13,12 +13,15 @@ import { ModalController } from 'ionic-angular';
 @Injectable()
 export class ModalService {
 
-  constructor(public http: Http) {
+  constructor(
+    public http: Http,
+    public modalCtrl: ModalController
+  ) {
     console.log('Hello ModalService Provider');
   }
 
-  getAddressSelectionModal(modalCtrl: ModalController, data){
-  	let prompt = modalCtrl.create({
+  getPrompt(data){
+  	let prompt = this.modalCtrl.create({
       title: data.title,
       message: data.message,
       inputs: data.inputs,

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { MapsTabSearch } from '../maps-tab-search/maps-tab-search';
+import { MapsTabSearchGoogle } from '../maps-tab-search-google/maps-tab-search-google';
 import { MapsTabRoute } from '../maps-tab-route/maps-tab-route';
 
 /**
@@ -15,8 +16,10 @@ import { MapsTabRoute } from '../maps-tab-route/maps-tab-route';
   selector: 'page-maps-tab',
   templateUrl: 'maps-tab.html',
 })
+
 export class MapsTab {
 
+  mapsTabSearchGoogle: any = MapsTabSearchGoogle;	
   mapsTabSearch: any = MapsTabSearch;
   mapsTabRoute: any = MapsTabRoute;
 

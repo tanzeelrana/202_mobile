@@ -5,13 +5,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
-import {Logger} from 'angular2-logger/core';
+import { Network } from '@ionic-native/network';
+import { Logger } from 'angular2-logger/core';
 
 import { MyApp } from './app.component';
 
 import { MapsTab } from '../pages/maps-tab/maps-tab';
 import { MapsTabRoute } from '../pages/maps-tab-route/maps-tab-route';
 import { MapsTabSearch } from '../pages/maps-tab-search/maps-tab-search';
+import { MapsTabSearchGoogle } from '../pages/maps-tab-search-google/maps-tab-search-google';
 
 import { Tabs } from '../pages/tabs/tabs';
 import { Home } from '../pages/home/home';
@@ -25,7 +27,9 @@ import { AuthService } from '../providers/auth-service';
 import { MapsService } from '../providers/maps-service';
 import { AlertsService } from '../providers/alerts-service';
 import { ModalService } from '../providers/modal-service';
-// import { LoggerService } from '../providers/logger-service';
+import { ConnectivityService } from '../providers/connectivity-service';
+import { OpenStreetMapsService } from '../providers/open-street-maps-service';
+import { GoogleMapsService } from '../providers/google-maps-service';
 
 
 @NgModule({
@@ -39,7 +43,8 @@ import { ModalService } from '../providers/modal-service';
     About,
     MapsTab,
     MapsTabRoute,
-    MapsTabSearch
+    MapsTabSearch,
+    MapsTabSearchGoogle
   ],
   imports: [
     BrowserModule,
@@ -57,7 +62,8 @@ import { ModalService } from '../providers/modal-service';
     About,
     MapsTab,
     MapsTabRoute,
-    MapsTabSearch
+    MapsTabSearch,
+    MapsTabSearchGoogle
   ],
   providers: [
     StatusBar,
@@ -66,10 +72,12 @@ import { ModalService } from '../providers/modal-service';
     AuthService,
     MapsService,
     Geolocation,
+    Network,
     AlertsService,
     ModalService,
-    // LoggerService,
-    // Logger
+    ConnectivityService,
+    OpenStreetMapsService,
+    GoogleMapsService
   ]
 })
 export class AppModule {}

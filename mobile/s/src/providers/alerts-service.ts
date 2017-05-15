@@ -13,7 +13,10 @@ import { AlertController } from 'ionic-angular';
 @Injectable()
 export class AlertsService {
 
-  constructor(public http: Http) {
+  constructor(
+  	public http: Http,
+  	public alertCtrl: AlertController
+  ) {
     console.log('Hello Alerts Service Provider');
   }
 	
@@ -43,8 +46,8 @@ export class AlertsService {
 		// ]
 	// }
 
-  getPromptAlert(alertCtrl: AlertController, data){
-  	let prompt = alertCtrl.create({
+  getPrompt(data){
+  	let prompt = this.alertCtrl.create({
       title: data.title,
       message: data.message,
       inputs: data.inputs,

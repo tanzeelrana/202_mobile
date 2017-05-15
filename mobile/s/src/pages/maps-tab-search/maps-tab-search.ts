@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
-
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { MapsService } from '../../providers/maps-service';
 import { Geolocation } from '@ionic-native/geolocation';
 import { AlertsService } from '../../providers/alerts-service';
-// import { LoggerService } from '../../providers/logger-service';
-
 import L from "leaflet";
 
 /**
@@ -19,8 +16,10 @@ import L from "leaflet";
   selector: 'page-maps-tab-search',
   templateUrl: 'maps-tab-search.html',
 })
+
 export class MapsTabSearch {
 
+	private mapsServiceProvider: String = "osrm";
 	private searchBarPlaceHolder: String = "Enter Address";
 	private addressQuery: String;
 	private shouldShowCancel: Boolean = true;
@@ -31,20 +30,14 @@ export class MapsTabSearch {
 
 	map: L.Map;
 	center: L.PointTuple;
-	public promptObj = {};
-
+	
 	constructor(
 		public navCtrl: NavController, 
 		public navParams: NavParams,
 		public mapsService: MapsService,
-		public alertsService: AlertsService,
-		public alertCtrl: AlertController,
-		public modalCtrl: ModalController,
-		// private logger: LoggerService
-		
+		public alertsService: AlertsService
 	) {
-		this.promptObj['alertCtrl'] = this.alertCtrl;
-		this.promptObj['modalCtrl'] = this.modalCtrl;
+		console.log("MapsTabSearchOSRM");
 	}
 
 	ionViewDidLoad() {
@@ -85,19 +78,19 @@ export class MapsTabSearch {
 	searchAddress(){
 		let me = this;
 		me.showSearchSpinner = !me.showSearchSpinner;
-		me.mapsService.searchAddress(me.addressQuery).then((data)=>{
-			// me.logger.log.debug(data);
+		me.mapsService.searchAddress(me.addressQuery, me.mapsServiceProvider).then((data)=>{
 			me.showSearchSpinner = !me.showSearchSpinner;
-			let alert = me.mapsService.getPromptForSearch(me.promptObj, data, {
+			let callbacks = {
 				moreHandler: data => {
 	            	console.log(data + ' clicked');
 	          	},
 	          	confirmHandler: data => {
 	            	console.log(data + ' clicked');
 	          	},
+			};
+			me.mapsService.getAddressSelectPrompt('alert', data, callbacks, me.mapsServiceProvider).then((prompt)=>{
+				( <any> prompt).present();
 			});
-
-			alert.present();
 		}).catch((error)=>{
 			me.showSearchSpinner = !me.showSearchSpinner;
 		});
@@ -107,7 +100,7 @@ export class MapsTabSearch {
 	reverseSearchAddress(lat,lon){
 		let me = this;
 		me.loadingLocationDetails = !me.loadingLocationDetails;
-		me.mapsService.reverseSearchAddress(lat,lon).then((data)=>{
+		me.mapsService.reverseSearchAddress(lat,lon, me.mapsServiceProvider).then((data)=>{
 			me.currentLocationDetails = data["Payload"];
 			me.loadingLocationDetails = !me.loadingLocationDetails;
 		}).catch((error)=>{
