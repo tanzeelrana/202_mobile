@@ -18,9 +18,9 @@ class AppConfig {
 	public initAWS(){
 		console.log("initAWS");
 		AWS.config.update({
-	        accessKeyId: "AKIAIHOWY5QSYNLZRAKA",
-	        secretAccessKey: "vhnfnoOIQTHlSQuHqMfMPY4UDbgixIBqWghT2rZv",
-	        "region": "us-east-1" 
+	        accessKeyId: "YOUR_ACCESS_KEY",
+	        secretAccessKey: "YOUR_SECRET_KEY",
+	        "region": "REGION" 
 	    });
 	};
 
