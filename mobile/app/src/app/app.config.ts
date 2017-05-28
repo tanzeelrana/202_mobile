@@ -20,7 +20,7 @@ class AppConfig {
 		AWS.config.update({
 	        accessKeyId: "AKIAIHOWY5QSYNLZRAKA",
 	        secretAccessKey: "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",
-	        "region": "us-west-2" 
+	        "region": "us-east-1" 
 	    });
 	};
 

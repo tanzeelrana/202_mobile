@@ -7,6 +7,7 @@ import { Tabs } from '../pages/tabs/tabs';
 import { MapsTab } from '../pages/maps-tab/maps-tab';
 import { Settings } from '../pages/settings/settings';
 import { Account } from '../pages/account/account';
+import { AwsGeospatialPage } from '../pages/aws-geospatial/aws-geospatial';
 
 import * as appConfig from '../app/app.config';
 
@@ -16,7 +17,7 @@ import * as appConfig from '../app/app.config';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage:any = MapsTab;
+  rootPage:any = AwsGeospatialPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -38,7 +39,8 @@ export class MyApp {
       { title: 'Maps', component: MapsTab },
       { title: 'Tabs', component: Tabs },
       { title: 'Settings', component: Settings },
-      { title: 'Account', component: Account }
+      { title: 'Account', component: Account },
+      { title: 'Aws Geospatial', component: AwsGeospatialPage }
     ];
 
   }

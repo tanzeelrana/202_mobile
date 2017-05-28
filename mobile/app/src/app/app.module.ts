@@ -6,22 +6,24 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Network } from '@ionic-native/network';
-import { Logger } from 'angular2-logger/core';
 
 import { MyApp } from './app.component';
+
+// Page Imports
 
 import { MapsTab } from '../pages/maps-tab/maps-tab';
 import { MapsTabRoute } from '../pages/maps-tab-route/maps-tab-route';
 import { MapsTabSearch } from '../pages/maps-tab-search/maps-tab-search';
 import { MapsTabSearchGoogle } from '../pages/maps-tab-search-google/maps-tab-search-google';
-
 import { Tabs } from '../pages/tabs/tabs';
 import { Home } from '../pages/home/home';
 import { Contact } from '../pages/contact/contact';
 import { About } from '../pages/about/about';
-
 import { Account } from '../pages/account/account';
 import { Settings } from '../pages/settings/settings';
+import { AwsGeospatialPage } from '../pages/aws-geospatial/aws-geospatial';
+
+// Provider Imports
 
 import { AuthService } from '../providers/auth-service';
 import { MapsService } from '../providers/maps-service';
@@ -30,7 +32,7 @@ import { ModalService } from '../providers/modal-service';
 import { ConnectivityService } from '../providers/connectivity-service';
 import { OpenStreetMapsService } from '../providers/open-street-maps-service';
 import { GoogleMapsService } from '../providers/google-maps-service';
-
+import { AwsGeoProvider } from '../providers/aws-geo/aws-geo';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { GoogleMapsService } from '../providers/google-maps-service';
     MapsTab,
     MapsTabRoute,
     MapsTabSearch,
-    MapsTabSearchGoogle
+    MapsTabSearchGoogle,
+    AwsGeospatialPage
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,8 @@ import { GoogleMapsService } from '../providers/google-maps-service';
     MapsTab,
     MapsTabRoute,
     MapsTabSearch,
-    MapsTabSearchGoogle
+    MapsTabSearchGoogle,
+    AwsGeospatialPage
   ],
   providers: [
     StatusBar,
@@ -77,7 +81,8 @@ import { GoogleMapsService } from '../providers/google-maps-service';
     ModalService,
     ConnectivityService,
     OpenStreetMapsService,
-    GoogleMapsService
+    GoogleMapsService,
+    AwsGeoProvider
   ]
 })
 export class AppModule {}
