@@ -4,6 +4,7 @@
 *~
 *.sw[mnpcod]
 *.log
+*.config.ts
 *.tmp
 *.tmp.*
 log.txt
