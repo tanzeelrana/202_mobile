@@ -1,0 +1,17 @@
+{
+  "AWS_ACCOUNT_ID": "503011594436",
+  "CLI_PROFILE": "default",
+  "REGION": "us-east-1",
+  "BUCKET": "quantumex_test_bucket",
+  "MAX_AGE": "10",
+  "CRYPTO_BYTE_SIZE": 128,
+  "DDB_TABLE": "LambdAuthUsers",
+  "IDENTITY_POOL_NAME": "LambdAuthIP",
+  "DEVELOPER_PROVIDER_NAME": "login.mycompany.myapp",
+  "EXTERNAL_NAME": "My Authentication",
+  "EMAIL_SOURCE": "tanzeelrana@quantumex.ca",
+  "VERIFICATION_PAGE": "http://quantumex_test_bucket.s3.amazonaws.com/verify.html",
+  "RESET_PAGE": "http://quantumex_test_bucket.s3.amazonaws.com/reset.html",
+  "USER_POOL_NAME": "LambdAuthUP"
+}
+
