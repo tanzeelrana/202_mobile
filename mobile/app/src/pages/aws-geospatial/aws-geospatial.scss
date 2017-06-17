@@ -1,3 +1,15 @@
 page-aws-geospatial {
+  #googlemap-aws {
+    position: relative; 
+    overflow: hidden; 
+    width: initial; 
+    height: 20em;
+  }
 
+  .map-container {
+      position: relative; 
+	    overflow: hidden; 
+	    width: initial; 
+	    height: 20em;
+   	}
 }

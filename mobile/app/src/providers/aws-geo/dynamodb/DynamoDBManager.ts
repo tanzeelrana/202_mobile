@@ -131,7 +131,6 @@ export class DynamoDBManager {
     return this.config.dynamoDBClient.putItem(putItemInput);
   }
 
-
   public batchWritePoints(putPointInputs: PutPointInput[]): Request<BatchWritePointOutput, AWSError> {
 
     const writeInputs: DynamoDB.WriteRequest[] = [];

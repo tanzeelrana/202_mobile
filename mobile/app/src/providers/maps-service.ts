@@ -9,6 +9,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 import * as appConfig from '../app/app.config';
 import L from "leaflet";
 
+declare var google;
+
 /*
   Generated class for the Maps provider.
 
@@ -91,6 +93,72 @@ export class MapsService {
     let promptData = me.mapsServices[provider].getAddressSelectPrompt(promptType, data, callbacks);
     let prompt = me.promptServices[promptType].getPrompt(promptData);
     return prompt;
+  }
+
+  initMap(mapInitialised, position, mapsServiceProvider, mapElement, gMap, zoom){
+    return new Promise((resolve, reject) => {
+      let me = this;
+      mapInitialised = true;
+      
+      let latLng = new google.maps.LatLng(position[0], position[1]);
+      let mapOptions = {
+        center: latLng,
+        zoom: zoom,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+
+      me.reverseSearchAddress(position[0],position[1], mapsServiceProvider).then((results)=>{
+        gMap = new google.maps.Map(mapElement, mapOptions);
+        me.addMarker(position, results[0], gMap).then((m)=>{
+          resolve(m);
+        }).catch((error)=>{
+          reject(error);
+        });
+      }).catch((error)=>{
+        console.error(error);
+        reject(error);
+      });
+    });
+  }
+
+  getDefaultMapOptions(latLng, zoom){
+     return {
+        center: latLng,
+        zoom: zoom,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+  }
+
+  getLatLng(position){
+    var latLng = new google.maps.LatLng(position[0], position[1]);
+    return latLng;
+  }
+
+  addMarker(position, place, gMap){
+    return new Promise((resolve, reject) => {
+      let marker = new google.maps.Marker({
+        map: gMap,
+        animation: google.maps.Animation.DROP,
+        position: gMap.getCenter()
+      });         
+      this.addInfoWindow(marker, place, gMap).then((m)=>{
+        resolve(m);
+      }).catch((error)=>{
+        reject(error);
+      });
+    });
+  }
+
+  addInfoWindow(marker, place, gMap){
+    return new Promise((resolve, reject) => {
+      let infoWindow = new google.maps.InfoWindow({
+        content: place['formatted_address']
+      });
+      google.maps.event.addListener(marker, 'click', () => {
+        infoWindow.open(gMap, marker);
+      });
+      resolve(gMap);
+    });
   }
 
 }

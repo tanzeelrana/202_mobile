@@ -20,26 +20,20 @@ export class AwsGeoProvider {
 
 	private ddb;
 	private config;
-	private capitalsManager;
+	private geoDataManager;
 	private createTableInput;
 	private uuid = UUID.UUID();
 
 	constructor(
 		public http: Http
 	) {
-
-		console.log("capitals data : ");
-		console.log(data);
-
-
-		
 		console.log('Hello AwsGeoProvider Provider');
 		
 		this.ddb = new AWS.DynamoDB();
 		// Configuration for a new instance of a GeoDataManager. Each GeoDataManager instance represents a table
 		this.config = new GeoDataManagerConfiguration(this.ddb, 'capitals');
 		// Instantiate the table manager
-		this.capitalsManager = new GeoDataManager(this.config);
+		this.geoDataManager = new GeoDataManager(this.config);
 		// Use GeoTableUtil to help construct a CreateTableInput.
 		this.createTableInput = GeoTableUtil.getCreateTableRequest(this.config);
 		// Tweak the schema as desired
@@ -53,77 +47,68 @@ export class AwsGeoProvider {
 		console.dir(me.createTableInput, { depth: null });
 
 		me.ddb.createTable(me.createTableInput).promise()
-		    // Wait for it to become ready
-		    .then(function () { return me.ddb.waitFor('tableExists', { TableName: me.config.tableName }).promise() })
-		    // Load sample data in batches
-		    .then(function () {
-		        console.log('Loading sample data from capitals.json');
-		        // const data = require('./resources/capitals.json');
-		        const putPointInputs = data.map(function (capital) {
-		            return {
-		                RangeKeyValue: { S: me.uuid }, // Use this to ensure uniqueness of the hash/range pairs.
-		                GeoPoint: {
-		                    latitude: capital.latitude,
-		                    longitude: capital.longitude
-		                },
-		                PutItemInput: {
-		                    Item: {
-		                        country: { S: capital.country },
-		                        capital: { S: capital.capital }
-		                    }
-		                }
-		            }
-		        });
+	    // Wait for it to become ready
+	    .then(function () { return me.ddb.waitFor('tableExists', { TableName: me.config.tableName }).promise() })
+	    // Load sample data in batches
+	    .then(function () {
+	        console.log('Loading sample data from capitals.json');
+	        // const data = require('./resources/capitals.json');
+	        const putPointInputs = data.map(function (capital) {
+	            return {
+	                RangeKeyValue: { S: me.uuid }, // Use this to ensure uniqueness of the hash/range pairs.
+	                GeoPoint: {
+	                    latitude: capital.latitude,
+	                    longitude: capital.longitude
+	                },
+	                PutItemInput: {
+	                    Item: {
+	                        country: { S: capital.country },
+	                        capital: { S: capital.capital }
+	                    }
+	                }
+	            }
+	        });
 
-		        const BATCH_SIZE = 25;
-		        const WAIT_BETWEEN_BATCHES_MS = 1000;
-		        var currentBatch = 1;
+	        const BATCH_SIZE = 25;
+	        const WAIT_BETWEEN_BATCHES_MS = 1000;
+	        var currentBatch = 1;
 
-		        function resumeWriting() {
-		            if (putPointInputs.length === 0) {
-		                return Promise.resolve();
-		            }
-		            const thisBatch = [];
-		            for (var i = 0, itemToAdd = null; i < BATCH_SIZE && (itemToAdd = putPointInputs.shift()); i++) {
-		                thisBatch.push(itemToAdd);
-		            }
-		            console.log('Writing batch ' + (currentBatch++) + '/' + Math.ceil(data.length / BATCH_SIZE));
-		            return me.capitalsManager.batchWritePoints(thisBatch).promise()
-		                .then(function () {
-		                    return new Promise(function (resolve) {
-		                        setInterval(resolve,WAIT_BETWEEN_BATCHES_MS);
-		                    });
-		                })
-		                .then(function () {
-		                    return resumeWriting()
-		                });
-		        }
+	        function resumeWriting() {
+	            if (putPointInputs.length === 0) {
+	                return Promise.resolve();
+	            }
+	            const thisBatch = [];
+	            for (var i = 0, itemToAdd = null; i < BATCH_SIZE && (itemToAdd = putPointInputs.shift()); i++) {
+	                thisBatch.push(itemToAdd);
+	            }
+	            console.log('Writing batch ' + (currentBatch++) + '/' + Math.ceil(data.length / BATCH_SIZE));
+	            return me.geoDataManager.batchWritePoints(thisBatch).promise()
+	                .then(function () {
+	                    return new Promise(function (resolve) {
+	                        setInterval(resolve,WAIT_BETWEEN_BATCHES_MS);
+	                    });
+	                })
+	                .then(function () {
+	                    return resumeWriting()
+	                });
+	        }
 
-		        return resumeWriting().catch(function (error) {
-		            console.warn(error);
-		        });
-		    })
+	        return resumeWriting().catch(function (error) {
+	            console.warn(error);
+	        });
+	    })
 
-		    // Perform a radius query
-		    .then(function () {
-		        console.log('Querying by radius, looking 100km from Cambridge, UK.');
-		        return me.capitalsManager.queryRadius({
-		            RadiusInMeter: 100000,
-		            CenterPoint: {
-		                latitude: 52.225730,
-		                longitude: 0.149593
-		            }
-		        })
-		    })
-		    
-		    // Print the results, an array of DynamoDB.AttributeMaps
-		    .then(console.log);
-		//     // Clean up
-		//     .then(function() { return me.ddb.deleteTable({ TableName: me.config.tableName }).promise() })
-		//     .catch(console.warn)
-		//     .then(function () {
-		//         process.exit(0);
-		// });
+	    // Perform a radius query
+	    .then(function () {
+	        console.log('Querying by radius, looking 100km from Cambridge, UK.');
+	        return me.geoDataManager.queryRadius({
+	            RadiusInMeter: 100000,
+	            CenterPoint: {
+	                latitude: 52.225730,
+	                longitude: 0.149593
+	            }
+	        })
+	    }).then(console.log);
 	}
 
 	/* 
@@ -145,8 +130,9 @@ export class AwsGeoProvider {
 	
 	radiusQuery(radiusInMeter, centerPoint){
 		let me = this;
+
 		return new Promise((resolve, reject) => {
-			me.capitalsManager.queryRadius({
+			me.geoDataManager.queryRadius({
 				RadiusInMeter: radiusInMeter,
 				CenterPoint: centerPoint
 			}).then((data)=>{
@@ -157,9 +143,33 @@ export class AwsGeoProvider {
 		});
 	}
 
-	/* 
-		Clean up
+	/*
+		let minPoint = new me.geoDataManager.GeoPoint(45.5, -124.3);
+		let maxPoint = new me.geoDataManager.GeoPoint(49.5, -120.3);
+	*/
 
+	boxQuery(minPoint, maxPoint){
+		let me = this;
+		let queryRectangleRequest = new me.geoDataManager.QueryRectangleRequest(minPoint, maxPoint);
+		let queryRectangleResult = me.geoDataManager.geoIndexManager.queryRectangle(queryRectangleRequest);
+
+		return new Promise((resolve, reject) => {
+			queryRectangleResult.then((data)=>{
+				resolve(data);
+			}).catch((error)=>{
+				reject(error);
+			});
+		});
+	}
+
+	/*
+		Add new point
+	*/
+
+
+
+	/* 
+		Clean/Delete up the table
 	*/
 
 	cleanUp(){

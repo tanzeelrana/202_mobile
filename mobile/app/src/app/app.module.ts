@@ -33,6 +33,7 @@ import { ConnectivityService } from '../providers/connectivity-service';
 import { OpenStreetMapsService } from '../providers/open-street-maps-service';
 import { GoogleMapsService } from '../providers/google-maps-service';
 import { AwsGeoProvider } from '../providers/aws-geo/aws-geo';
+import { AwsCognitoProvider } from '../providers/aws-cognito/aws-cognito';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { AwsGeoProvider } from '../providers/aws-geo/aws-geo';
     ConnectivityService,
     OpenStreetMapsService,
     GoogleMapsService,
-    AwsGeoProvider
+    AwsGeoProvider,
+    AwsCognitoProvider
   ]
 })
 export class AppModule {}

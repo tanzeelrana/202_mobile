@@ -5,24 +5,39 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
     <ion-title>Aws Geospatial</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
-
-	
+	<ion-card>
+	    <div class="map-container">
+	      <div id="googlemap-aws"></div>
+	    </div>
+	</ion-card>
+	<ion-list no-border>
+	    <ion-list-header>
+	      Radius Query
+	    </ion-list-header>
+	    <ion-item>
+		    <ion-label>Radius(meters)</ion-label>
+		    <ion-input type="number"[(ngModel)]="radius"></ion-input>
+		</ion-item>
+	    <ion-item>
+		    <ion-label>Logitude</ion-label>
+		    <ion-input type="number" [(ngModel)]="longitude"></ion-input>
+		</ion-item>
+		<ion-item>
+		    <ion-label>Latitude</ion-label>
+		    <ion-input type="number" [(ngModel)]="latitude"></ion-input>
+		</ion-item>
+	    <ion-item>
+	      <button ion-button color="dark" item-right (click)="radiusQuery()" >Go</button>
+	    </ion-item>
+	</ion-list>
 
 	<ion-footer>
-	  <ion-toolbar>
-	    <ion-title>Capitals Table : </ion-title>
-	    <button ion-button color="light" outline (click)="deleteTable()" >Delete</button>
-		<button ion-button outline (click)="createTable()" >Create</button>
-	  </ion-toolbar>
+	  
 	</ion-footer>
-
 </ion-content>
