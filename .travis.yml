@@ -1,0 +1,38 @@
+os:
+- linux
+language: java
+jdk:
+- oraclejdk8
+node_js:
+- iojs
+- '7'
+env:
+- NODE_VERSION=6.7.0
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+    - oracle-java8-installer
+    - lib32stdc++6
+    - lib32z1
+before_install:
+- echo before_install
+- nvm install $NODE_VERSION
+- export LANG=en_US.UTF-8
+- node -v
+- npm -v
+- ls -la
+install:
+- echo install
+before_script:
+- echo before_script
+- echo $JAVA_HOME
+- java -version
+- export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+script:
+- echo script
+after_script:
+- echo after_script
+- rm -rf *
