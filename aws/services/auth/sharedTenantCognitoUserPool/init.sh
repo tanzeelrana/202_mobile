@@ -31,4 +31,136 @@ if [[ ! -z "$CLI_PROFILE" ]]; then
   export AWS_DEFAULT_PROFILE=$CLI_PROFILE
 fi
 
-echo "user pool name is : $USER_POOL_NAME"
+# Create S3 Bucket
+aws s3 mb s3://$BUCKET
+
+# Create DynamoDB Tables
+echo "Creating DynamoDB Table $DDB_TABLE begin..."
+aws dynamodb create-table --table-name $DDB_TABLE \
+    --attribute-definitions AttributeName=email,AttributeType=S \
+    --key-schema AttributeName=email,KeyType=HASH \
+    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
+		--region $REGION
+echo "Creating DynamoDB Table $DDB_TABLE end (creation still in progress)"
+
+
+# Get user pool id if already exists
+USER_POOL_ID=$(aws cognito-idp list-user-pools --max-results 1 \
+	  --query 'UserPools[?Name == `'$USER_POOL_NAME'`].Id' \
+	  --output text --region $REGION)
+# Create Cognito User Pool	  
+if [ -z "$USER_POOL_ID" ]; then
+	echo "Creating Cognito User Pool $USER_POOL_NAME begin..."
+	USER_POOL_ID=$(aws cognito-idp create-user-pool --pool-name $USER_POOL_NAME \
+	    --query 'UserPool.Id' --output text --region $REGION)
+	echo "User Pool Id: $USER_POOL_ID"
+	echo "Creating Cognito User Pool $USER_POOL_NAME end"
+else
+  echo "Using previous user pool with name $USER_POOL_NAME and id $USER_POOL_ID"
+fi
+
+# Create a app client for web access
+USER_POOL_APP_CLIENT_ID=$(aws cognito-idp create-user-pool-client --user-pool-id \
+      $USER_POOL_ID --client-name "202" --query 'UserPoolClient.ClientId' --output text --region $REGION) 
+
+echo "USER_POOL_APP_CLIENT_ID : $USER_POOL_APP_CLIENT_ID" 
+
+# Updating Cognito User Pool Id and App client Id in the configuration file
+mv config.json config.json.orig
+jq '.USER_POOL_ID="'"$USER_POOL_ID"'"' config.json.orig > config.json
+rm config.json.orig
+
+mv config.json config.json.orig
+jq '.USER_POOL_APP_CLIENT_ID="'"$USER_POOL_APP_CLIENT_ID"'"' config.json.orig > config.json
+rm config.json.orig
+
+cd iam
+if [ -d "edit" ]; then
+  rm edit/*
+else
+  mkdir edit
+fi
+
+# Create IAM Roles for Cognito
+for f in $(ls -1 trust*); do
+  echo "Editing trust from $f begin..."
+  sed -e "s/<AWS_ACCOUNT_ID>/$AWS_ACCOUNT_ID/g" \
+      -e "s/<DYNAMODB_TABLE>/$DDB_TABLE/g" \
+      -e "s/<DYNAMODB_EMAIL_INDEX>/$DDB_EMAIL_INDEX/g" \
+      -e "s/<REGION>/$REGION/g" \
+      -e "s/<USER_POOL_ID>/$USER_POOL_ID/g" \
+      -e "s/<REGION>/$REGION/g" \
+      $f > edit/$f
+  echo "Editing trust from $f end"
+done
+
+for f in $(ls -1 Cognito*); do
+  role="${f%.*}"
+  echo "Creating role $role from $f begin..."
+  sed -e "s/<AWS_ACCOUNT_ID>/$AWS_ACCOUNT_ID/g" \
+      -e "s/<DYNAMODB_TABLE>/$DDB_TABLE/g" \
+      -e "s/<DYNAMODB_EMAIL_INDEX>/$DDB_EMAIL_INDEX/g" \
+      -e "s/<REGION>/$REGION/g" \
+      -e "s/<USER_POOL_ID>/$USER_POOL_ID/g" \
+      -e "s/<REGION>/$REGION/g" \
+        $f > edit/$f
+  if [[ $f == *Unauth_* ]]; then
+    trust="trust_policy_cognito_unauth.json"
+    unauthRole="$role"
+  else
+    trust="trust_policy_cognito_auth.json"
+    authRole="$role"
+  fi
+  aws iam create-role --role-name $role --assume-role-policy-document file://edit/$trust
+  aws iam update-assume-role-policy --role-name $role --policy-document file://edit/$trust
+  aws iam put-role-policy --role-name $role --policy-name $role --policy-document file://edit/$f
+  echo "Creating role $role end"
+done
+
+# echo "Setting user pool roles begin..."
+# roles='{"unauthenticated":"arn:aws:iam::'"$AWS_ACCOUNT_ID"':role/'"$unauthRole"'","authenticated":"arn:aws:iam::'"$AWS_ACCOUNT_ID"':role/'"$authRole"'"}'
+# echo "Roles: $roles"
+
+# aws cognito-idp set-user-pool-roles \
+#   --user-pool-id $IDENTITY_POOL_ID \
+#   --roles $roles \
+#   --region $REGION
+# echo "Setting identity pool roles end"
+
+# Create IAM Roles for Lambda Function
+for f in $(ls -1 LambdAuth*); do
+  role="${f%.*}"
+  echo "Creating role $role from $f begin..."
+  sed -e "s/<AWS_ACCOUNT_ID>/$AWS_ACCOUNT_ID/g" \
+      -e "s/<DYNAMODB_TABLE>/$DDB_TABLE/g" \
+      -e "s/<DYNAMODB_EMAIL_INDEX>/$DDB_EMAIL_INDEX/g" \
+      -e "s/<USER_POOL_ID>/$USER_POOL_ID/g" \
+      -e "s/<REGION>/$REGION/g" \
+      $f > edit/$f
+  trust="trust_policy_lambda.json"
+  aws iam create-role --role-name $role --assume-role-policy-document file://edit/$trust
+  aws iam update-assume-role-policy --role-name $role --policy-document file://edit/$trust
+  aws iam put-role-policy --role-name $role --policy-name $role --policy-document file://edit/$f
+  echo "Creating role $role end"
+done
+
+cd ..
+
+# Create Lambda Functions
+for f in $(ls -1|grep ^LambdAuth); do
+  echo "Creating function $f begin..."
+  cp config.json $f/
+  cd $f
+  zip -r $f.zip index.js config.json
+  aws lambda create-function --function-name ${f} \
+      --runtime nodejs4.3 \
+      --role arn:aws:iam::"$AWS_ACCOUNT_ID":role/${f} \
+      --handler index.handler \
+      --zip-file fileb://${f}.zip \
+      --region $REGION
+  sleep 1 # To avoid errors
+  cd ..
+  echo "Creating function $f end"
+done
+
+./deploy.sh

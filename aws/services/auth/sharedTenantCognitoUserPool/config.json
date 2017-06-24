@@ -1,17 +1,18 @@
 {
+  "USER_POOL_APP_CLIENT_ID": "67na9mf24hnmv0h1odont72l02",
   "AWS_ACCOUNT_ID": "503011594436",
-  "CLI_PROFILE": "default",
-  "REGION": "us-east-1",
-  "BUCKET": "quantumex_test_bucket",
-  "MAX_AGE": "10",
-  "CRYPTO_BYTE_SIZE": 128,
   "DDB_TABLE": "LambdAuthUsers",
+  "CRYPTO_BYTE_SIZE": 128,
+  "MAX_AGE": "10",
+  "BUCKET": "202-test-bucket",
+  "REGION": "us-east-1",
+  "CLI_PROFILE": "default",
   "IDENTITY_POOL_NAME": "LambdAuthIP",
-  "DEVELOPER_PROVIDER_NAME": "login.mycompany.myapp",
-  "EXTERNAL_NAME": "My Authentication",
+  "USER_POOL_NAME": "LambdAuthUserPool",
+  "RESET_PAGE": "http://202-test-bucket.s3.amazonaws.com/reset.html",
+  "VERIFICATION_PAGE": "http://202-test-bucket.s3.amazonaws.com/verify.html",
   "EMAIL_SOURCE": "tanzeelrana@quantumex.ca",
-  "VERIFICATION_PAGE": "http://quantumex_test_bucket.s3.amazonaws.com/verify.html",
-  "RESET_PAGE": "http://quantumex_test_bucket.s3.amazonaws.com/reset.html",
-  "USER_POOL_NAME": "LambdAuthUP"
+  "EXTERNAL_NAME": "My Authentication",
+  "DEVELOPER_PROVIDER_NAME": "login.mycompany.myapp",
+  "USER_POOL_ID": "us-east-1_RMxHMXdse"
 }
-

@@ -1,0 +1,117 @@
+<html>
+<head>
+  <title>Sample Sign Up Page</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.3.7.min.js"></script>
+  <script src="https://cdn.rawgit.com/aws/amazon-cognito-identity-js/master/dist/aws-cognito-sdk.min.js"></script>
+  <script src="https://cdn.rawgit.com/aws/amazon-cognito-identity-js/master/dist/amazon-cognito-identity.min.js"></script>
+  
+  <script>
+    var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+    var poolData = {
+        UserPoolId : 'us-east-1_RMxHMXdse', // Your user pool id here
+        ClientId : '67na9mf24hnmv0h1odont72l02' // Your client id here
+    };
+    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+   //  AWS.config.region = 'us-east-1';
+  	// AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+   //    IdentityPoolId: 'us-east-1_RMxHMXdse'
+   //  });
+   //  var lambda = new AWS.Lambda();
+	</script>
+  <h1>Sample Sign Up Page</h1>
+  <div id="info">
+  Sign Up
+  </div>
+  <table>
+    <tr>
+      <td>Email</td>
+      <td><input type="email" id="email" size="20">
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td><input type="password" id="password" size="20">
+    </tr>
+    <tr>
+      <td>Verify Password</td>
+      <td><input type="password" id="verifyPassword" size="20">
+    </tr>
+    <tr>
+      <td colspan="2">
+        <button id="signup-button">Sign Up</button>
+      </td>
+    </tr>
+		<tr>
+      <td colspan="2" class="center">
+				<a href="index.html">Back</a>
+      </td>
+    </tr>
+  </table>
+  <script>
+  var info = document.getElementById('info');
+  var email = document.getElementById('email');
+  var password = document.getElementById('password');
+  var verifyPassword = document.getElementById('verifyPassword');
+  var signupButton = document.getElementById('signup-button');
+  signupButton.addEventListener('click', function() {
+    info.innerHTML = 'Sign Up...';
+		if (email.value == null || email.value == '') {
+    	info.innerHTML = 'Please specify your email address.';
+    } else if (password.value == null || password.value == '') {
+      info.innerHTML = 'Please specify a password.';
+    } else if (password.value != verifyPassword.value) {
+        info.innerHTML = 'Passwords are <b>different</b>, please check.';
+    } else {
+      
+      var attributeList = [];
+
+      var dataEmail = {
+          Name : 'email',
+          Value : email.value
+      };
+
+      var dataPhoneNumber = {
+          Name : 'phone_number',
+          Value : '+15555555555'
+      };
+      var attributeEmail = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
+      var attributePhoneNumber = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataPhoneNumber);
+
+      attributeList.push(attributeEmail);
+      attributeList.push(attributePhoneNumber);
+
+      userPool.signUp(email.value, verifyPassword.value, attributeList, null, function(err, result){
+          if (err) {
+            console.log(err, err.stack);
+            alert(err);
+            info.innerHTML = 'User <b>not</b> created : ' + err.message;
+            return;
+          }else {
+            var cognitoUser = result.user;
+            info.innerHTML = 'User ' + cognitoUser.getUsername() + ' created. Please check your email to validate the user and enable login.';
+          }
+      });
+
+
+      // lambda.invoke({
+      //   FunctionName: 'LambdAuthCreateUser',
+      //   Payload: JSON.stringify(input)
+      // }, function(err, data) {
+      //   if (err) console.log(err, err.stack);
+      //   else {
+      //     var output = JSON.parse(data.Payload);
+      //     if (output.created) {
+      //       info.innerHTML = 'User ' + input.email + ' created. Please check your email to validate the user and enable login.';
+      //     } else {
+      //       info.innerHTML = 'User <b>not</b> created.';
+      //     }
+      //   }
+      // });
+    }
+  });
+  </script>
+</body>
+</html>
