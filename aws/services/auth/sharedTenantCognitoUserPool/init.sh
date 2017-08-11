@@ -117,16 +117,6 @@ for f in $(ls -1 Cognito*); do
   echo "Creating role $role end"
 done
 
-# echo "Setting user pool roles begin..."
-# roles='{"unauthenticated":"arn:aws:iam::'"$AWS_ACCOUNT_ID"':role/'"$unauthRole"'","authenticated":"arn:aws:iam::'"$AWS_ACCOUNT_ID"':role/'"$authRole"'"}'
-# echo "Roles: $roles"
-
-# aws cognito-idp set-user-pool-roles \
-#   --user-pool-id $IDENTITY_POOL_ID \
-#   --roles $roles \
-#   --region $REGION
-# echo "Setting identity pool roles end"
-
 # Create IAM Roles for Lambda Function
 for f in $(ls -1 LambdAuth*); do
   role="${f%.*}"
