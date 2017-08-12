@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, IonicPage } from 'ionic-angular';
 
 import { Settings } from '../../providers/settings';
 
@@ -11,10 +11,16 @@ import { TranslateService } from '@ngx-translate/core';
  * to enable the user to customize settings for the app.
  *
  */
+
+@IonicPage({
+  name: 'settings-page'
+})
+
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html'
 })
+
 export class SettingsPage {
   // Our local settings object
   options: any;

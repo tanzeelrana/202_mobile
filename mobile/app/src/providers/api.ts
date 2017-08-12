@@ -35,6 +35,16 @@ export class Api {
     });
   }
 
+  logOut(){
+    return new Promise((resolve, reject) => {
+      this.backendProvider.logOut().then(() => {
+        resolve();
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  }
+
   get(endpoint: string, params?: any, options?: RequestOptions) {
     return new Promise((resolve, reject) => {
       

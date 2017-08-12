@@ -1,12 +1,12 @@
 page-welcome {
   .splash-bg {
     position: relative;
-    background: url('../assets/img/splashbg.png') no-repeat transparent;
+    background: url('../assets/img/peachy-bg.jpg') no-repeat transparent;
     background-size: cover;
     height: 45%;
     z-index: 1;
     background-repeat: repeat-x;
-    animation: animatedBackground 40s linear infinite;
+    animation: animatedBackground 7s linear infinite;
   }
 
   @keyframes animatedBackground {
@@ -22,7 +22,7 @@ page-welcome {
   }
   .splash-logo {
     margin: auto;
-    background: url('../assets/img/appicon.png') repeat transparent;
+    background: url('../assets/img/pp.jpg') repeat transparent;
     background-size: 100%;
     width: 128px;
     height: 128px;

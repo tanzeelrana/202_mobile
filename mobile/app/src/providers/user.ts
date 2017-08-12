@@ -25,11 +25,12 @@ import 'rxjs/add/operator/toPromise';
  */
 @Injectable()
 export class User {
-  _user: any;
-
+  
+  public _user: any = {};
+  
   constructor(public http: Http, public api: Api) {
   }
-
+  
   /**
    * Send a POST request to our login endpoint with the data
    * the user entered on the form.
@@ -37,7 +38,7 @@ export class User {
   login(accountInfo: any) {
     return new Promise((resolve, reject) => {
       this.api.login(accountInfo).then((user)=>{
-        this._user = user;
+        this._user = (<any> user).toJSON();
         resolve(user);
       }).catch((error)=>{
         reject(error);
