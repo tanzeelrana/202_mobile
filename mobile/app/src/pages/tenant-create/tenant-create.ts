@@ -4,14 +4,22 @@ import { NavController, ViewController } from 'ionic-angular';
 
 import { Camera } from '@ionic-native/camera';
 
+/**
+ * Generated class for the TenantCreatePage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
 
 @Component({
-  selector: 'page-item-create',
-  templateUrl: 'item-create.html'
+  selector: 'page-tenant-create',
+  templateUrl: 'tenant-create.html',
 })
-export class ItemCreatePage {
-  @ViewChild('fileInput') fileInput;
+export class TenantCreatePage {
 
+  @ViewChild('fileInput') fileInput;
+  @ViewChild('companyLogoFileInput') companyLogoFileInput;
+  
   isReadyToSave: boolean;
 
   item: any;
@@ -26,8 +34,16 @@ export class ItemCreatePage {
   ) {
     this.form = formBuilder.group({
       profilePic: [''],
-      name: ['', Validators.required],
-      about: ['']
+      companyLogoPic: [''],
+
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.email],
+      password: ['', Validators.required],
+      about: [''],
+      companyName: ['', Validators.required],      
+      companyStatus: [false, Validators.required],
+      username: ['', Validators.required],
     });
 
     // Watch the form for changes, and
@@ -40,35 +56,41 @@ export class ItemCreatePage {
 
   }
 
-  getPicture() {
+  getPicture(source) {
+    let me = this;
     if (Camera['installed']()) {
       this.camera.getPicture({
         destinationType: this.camera.DestinationType.DATA_URL,
         targetWidth: 96,
         targetHeight: 96
       }).then((data) => {
-        this.form.patchValue({ 'profilePic': 'data:image/jpg;base64,' + data });
+        let ImgObj = {};
+        ImgObj[source] = 'data:image/jpg;base64,' + data;
+        me.form.patchValue(ImgObj);
       }, (err) => {
         alert('Unable to take photo');
       })
     } else {
-      this.fileInput.nativeElement.click();
+      this[source].nativeElement.click();
     }
   }
 
-  processWebImage(event) {
+  processWebImage(event,source) {
+    let me = this;
     let reader = new FileReader();
     reader.onload = (readerEvent) => {
-
+      console.log(source);
       let imageData = (readerEvent.target as any).result;
-      this.form.patchValue({ 'profilePic': imageData });
+      let ImgObj = {};
+      ImgObj[source] = imageData;
+      me.form.patchValue(ImgObj);
     };
 
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  getProfileImageStyle() {
-    return 'url(' + this.form.controls['profilePic'].value + ')'
+  getProfileImageStyle(source) {
+    return 'url(' + this.form.controls[source].value + ')'
   }
 
   /**
@@ -86,4 +108,5 @@ export class ItemCreatePage {
     if (!this.form.valid) { return; }
     this.viewCtrl.dismiss(this.form.value);
   }
+
 }

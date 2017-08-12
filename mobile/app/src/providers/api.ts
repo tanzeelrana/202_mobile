@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers, URLSearchParams } from '@angular/http';
+import { Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { ParseProvider } from './parse/parse';
@@ -22,7 +22,7 @@ export class Api {
   private init(){
     if(appConfig.config.backend.type == 'parse'){
       this.backendProvider = new ParseProvider(this.http);
-    }    
+    }
   }
 
   login(account){
@@ -45,15 +45,23 @@ export class Api {
     });
   }
 
-  get(endpoint: string, params?: any, options?: RequestOptions) {
+  get(endpoint: string, params?: any) {
     return new Promise((resolve, reject) => {
-      
+      this.backendProvider.get(endpoint,params).then((results) => {
+        resolve(results);
+      }).catch((error) => {
+        reject(error);
+      });
     });
   }
 
   post(endpoint: string, body: any, options?: RequestOptions) {
     return new Promise((resolve, reject) => {
-      
+      this.backendProvider.post(endpoint,body,options).then((results) => {
+        resolve(results);
+      }).catch((error) => {
+        reject(error);
+      });
     });
   }
 
@@ -63,7 +71,7 @@ export class Api {
     });
   }
 
-  delete(endpoint: string, options?: RequestOptions) {
+  delete(endpoint: string, body: any, options?: RequestOptions) {
     return new Promise((resolve, reject) => {
       
     });

@@ -27,7 +27,7 @@
   "TUTORIAL_SLIDE3_DESCRIPTION": "Need help? Check out the Super Starter README for a full tutorial",
 
   "TUTORIAL_SLIDE4_TITLE": "Ready to Play?",
-
+  
   "WELCOME_INTRO" : "The starting point for your next great Ionic app",
 
   "SETTINGS_TITLE": "Settings",
@@ -64,5 +64,19 @@
   "CARDS_TITLE": "Social",
 
   "SEARCH_TITLE": "Search",
-  "SEARCH_PLACEHOLDER" : "Search the items list, e.g. \"Donald Duck\""
+  "SEARCH_PLACEHOLDER" : "Search the items list, e.g. \"Donald Duck\"",
+
+
+
+
+
+  "TENANTS_TITLE": "Tenants",
+  "ADD_TENANTS_TITLE": "Add Tenant",
+  "FNAME": "First Name",
+  "LNAME": "Last Name",
+  "COMPANY_NAME": "Company Name",
+  "COMPANY_STATUS": "Status",
+  "TENANT_CREATE_TITLE": "New Tenant",
+  "TENANT_CREATE_CHOOSE_IMAGE": "Add Image",
+  "TENANT_CREATE_CHOOSE_COMPANY_IMAGE": "Add Company Image"
 }

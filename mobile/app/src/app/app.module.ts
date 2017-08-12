@@ -1,7 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, Http } from '@angular/http';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler, IonicPageModule } from 'ionic-angular';
 import { Storage, IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
@@ -21,6 +21,10 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { WelcomePage } from '../pages/welcome/welcome';
 
+import { TenantCreatePage } from '../pages/tenant-create/tenant-create';
+import { TenantDetailPage } from '../pages/tenant-detail/tenant-detail';
+
+
 import { Api } from '../providers/api';
 import { Items } from '../mocks/providers/items';
 import { Settings } from '../providers/settings';
@@ -35,6 +39,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ParseProvider } from '../providers/parse/parse';
 import { StorageProvider } from '../providers/storage/storage';
+import { TenantsProvider } from '../providers/tenants/tenants';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -72,11 +77,15 @@ export function provideSettings(storage: Storage) {
     SettingsPage,
     SignupPage,
     TabsPage,
+    TabsPage,
+    TenantCreatePage,
+    TenantDetailPage,
     TutorialPage,
     WelcomePage
   ],
   imports: [
     BrowserModule,
+    IonicPageModule,
     HttpModule,
     TranslateModule.forRoot({
       loader: {
@@ -103,6 +112,8 @@ export function provideSettings(storage: Storage) {
     SettingsPage,
     SignupPage,
     TabsPage,
+    TenantCreatePage,
+    TenantDetailPage,
     TutorialPage,
     WelcomePage
   ],
@@ -115,10 +126,10 @@ export function provideSettings(storage: Storage) {
     SplashScreen,
     StatusBar,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
-    // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ParseProvider,
-    StorageProvider
+    StorageProvider,
+    TenantsProvider,
   ]
 })
 export class AppModule { }
