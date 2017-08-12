@@ -35,21 +35,14 @@ export class User {
    * the user entered on the form.
    */
   login(accountInfo: any) {
-    let seq = this.api.post('login', accountInfo).share();
-
-    seq
-      .map(res => res.json())
-      .subscribe(res => {
-        // If the API returned a successful response, mark the user as logged in
-        if (res.status == 'success') {
-          this._loggedIn(res);
-        } else {
-        }
-      }, err => {
-        console.error('ERROR', err);
+    return new Promise((resolve, reject) => {
+      this.api.login(accountInfo).then((user)=>{
+        this._user = user;
+        resolve(user);
+      }).catch((error)=>{
+        reject(error);
       });
-
-    return seq;
+    });
   }
 
   /**
@@ -57,20 +50,13 @@ export class User {
    * the user entered on the form.
    */
   signup(accountInfo: any) {
-    let seq = this.api.post('signup', accountInfo).share();
-
-    seq
-      .map(res => res.json())
-      .subscribe(res => {
-        // If the API returned a successful response, mark the user as logged in
-        if (res.status == 'success') {
-          this._loggedIn(res);
-        }
-      }, err => {
-        console.error('ERROR', err);
+    return new Promise((resolve, reject) => {
+      this.api.login(accountInfo).then((user)=>{
+        resolve(user);
+      }).catch((error)=>{
+        reject(error);
       });
-
-    return seq;
+    });
   }
 
   /**
@@ -78,12 +64,5 @@ export class User {
    */
   logout() {
     this._user = null;
-  }
-
-  /**
-   * Process a login/signup response to store user data
-   */
-  _loggedIn(resp) {
-    this._user = resp.user;
   }
 }

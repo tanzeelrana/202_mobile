@@ -36,9 +36,9 @@ export class SignupPage {
 
   doSignup() {
     // Attempt to login in through our User service
-    this.user.signup(this.account).subscribe((resp) => {
+    this.user.signup(this.account).catch((resp) => {
       this.navCtrl.push(MainPage);
-    }, (err) => {
+    }).catch((err) => {
 
       this.navCtrl.push(MainPage); // TODO: Remove this when you add your signup endpoint
 

@@ -1,49 +1,67 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { Http, RequestOptions, Headers, URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/map';
+
+import { ParseProvider } from './parse/parse';
+import * as appConfig from '../app/app.config';
 
 /**
  * Api is a generic REST Api handler. Set your API url first.
  */
 @Injectable()
 export class Api {
-  url: string = 'https://example.com/api/v1';
 
-  constructor(public http: Http) {
+  backendProvider: any;
+
+  constructor(
+    public http: Http
+  ) {
+    this.init();
+  }
+
+  private init(){
+    if(appConfig.config.backend.type == 'parse'){
+      this.backendProvider = new ParseProvider(this.http);
+    }    
+  }
+
+  login(account){
+    return new Promise((resolve, reject) => {
+      this.backendProvider.login(account).then((user)=>{
+        resolve(user);
+      }).catch((error)=>{
+        reject(error);
+      });
+    });
   }
 
   get(endpoint: string, params?: any, options?: RequestOptions) {
-    if (!options) {
-      options = new RequestOptions();
-    }
-
-    // Support easy query params for GET requests
-    if (params) {
-      let p = new URLSearchParams();
-      for (let k in params) {
-        p.set(k, params[k]);
-      }
-      // Set the search field if we have params and don't already have
-      // a search field set in options.
-      options.search = !options.search && p || options.search;
-    }
-
-    return this.http.get(this.url + '/' + endpoint, options);
+    return new Promise((resolve, reject) => {
+      
+    });
   }
 
   post(endpoint: string, body: any, options?: RequestOptions) {
-    return this.http.post(this.url + '/' + endpoint, body, options);
+    return new Promise((resolve, reject) => {
+      
+    });
   }
 
   put(endpoint: string, body: any, options?: RequestOptions) {
-    return this.http.put(this.url + '/' + endpoint, body, options);
+    return new Promise((resolve, reject) => {
+      
+    });
   }
 
   delete(endpoint: string, options?: RequestOptions) {
-    return this.http.delete(this.url + '/' + endpoint, options);
+    return new Promise((resolve, reject) => {
+      
+    });
   }
 
   patch(endpoint: string, body: any, options?: RequestOptions) {
-    return this.http.put(this.url + '/' + endpoint, body, options);
+    return new Promise((resolve, reject) => {
+      
+    });
   }
 }

@@ -13,8 +13,11 @@ export class Items {
   }
 
   query(params?: any) {
-    return this.api.get('/items', params)
-      .map(resp => resp.json());
+    return this.api.get('/items', params).then((data)=>{
+  
+    }).catch((error)=>{
+    
+    })
   }
 
   add(item: Item) {
