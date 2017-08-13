@@ -25,6 +25,26 @@ export class Api {
     }
   }
 
+  userHasRole(role){
+    return new Promise((resolve, reject) => {
+      this.backendProvider.userHasRole(role).then((user)=>{
+        resolve(user);
+      }).catch((error)=>{
+        reject(error);
+      });
+    });
+  }
+
+  isLoggedIn(){
+    return new Promise((resolve, reject) => {
+      this.backendProvider.isLoggedIn().then((user)=>{
+        resolve(user);
+      }).catch((error)=>{
+        reject(error);
+      });
+    });
+  }
+
   login(account){
     return new Promise((resolve, reject) => {
       this.backendProvider.login(account).then((user)=>{

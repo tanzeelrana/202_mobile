@@ -24,6 +24,16 @@ export class TenantsProvider {
     this.query().catch((error)=>{});
   }
 
+  testRole(){
+    return new Promise((resolve, reject) => {
+      this.api.userHasRole('super').then((result)=>{
+        console.log(result);
+      }).catch((error)=>{
+        console.log(error);
+      });
+    });
+  }
+
   query(params?: any) : any {
     return new Promise((resolve, reject) => {
       this.api.get("Tenant", []).then((tenants)=>{
@@ -37,7 +47,7 @@ export class TenantsProvider {
 
   add(tenant: Tenant) {
     return new Promise((resolve, reject) => {
-      this.api.post("Tenant", tenant).then((result)=>{
+      this.api.post("addTenant", tenant).then((result)=>{
         resolve(result);
       }).catch((error)=>{
         reject(error);

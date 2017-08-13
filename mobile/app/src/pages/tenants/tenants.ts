@@ -6,6 +6,8 @@ import { Tenant } from '../../models/tenant';
 import { TenantCreatePage } from '../tenant-create/tenant-create';
 import { TenantDetailPage } from '../tenant-detail/tenant-detail';
 
+import Parse from 'parse';
+
 /**
  * Generated class for the TenantsPage page.
  *
@@ -29,7 +31,9 @@ export class TenantsPage {
   }
 
   ionViewDidLoad() {
-    
+    this.tenantsProvider.query().catch((error)=>{
+      console.error(error);
+    });
   }
 
   addTenant(){

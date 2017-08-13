@@ -36,14 +36,14 @@ export class TenantCreatePage {
       profilePic: [''],
       companyLogoPic: [''],
 
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.email],
-      password: ['', Validators.required],
-      about: [''],
-      companyName: ['', Validators.required],      
+      firstName: ['Amir', Validators.required],
+      lastName: ['Bilgrami', Validators.required],
+      email: ['tanzeelrana@cmail.carleton.ca', Validators.email],
+      password: ['tanzeel', Validators.required],
+      about: ['about'],
+      companyName: ['Bilgrami Trading Inc.', Validators.required],      
       companyStatus: [false, Validators.required],
-      username: ['', Validators.required],
+      username: ['amirbilgrami', Validators.required],
     });
 
     // Watch the form for changes, and
@@ -53,7 +53,7 @@ export class TenantCreatePage {
   }
 
   ionViewDidLoad() {
-
+    
   }
 
   getPicture(source) {

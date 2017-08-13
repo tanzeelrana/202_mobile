@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import Parse from 'parse';
@@ -29,11 +29,11 @@ export class ParseProvider {
     Parse.serverURL = this.BACKEND_URL;
   }
 
-  userHasRole(user, roleName) {
+  userHasRole(roleName) {
     return new Promise((resolve, reject) => {
       var query = new Parse.Query(Parse.Role);
       query.equalTo("name", roleName);
-      query.equalTo("users", user);
+      query.equalTo("users", this.isLoggedIn());
       query.find().then((roles)=> {
           resolve(roles.length > 0);
       }).catch((error)=>{
@@ -88,17 +88,9 @@ export class ParseProvider {
 
   post(endpoint: string, body: any, options?: RequestOptions) {
     return new Promise((resolve, reject) => {
-      var obj = Parse.Object.extend(endpoint);
-      var query = new Parse.Query(obj);
-      //add query params here later
-      query.find({
-        success: function(results) {
-          // Do something with the returned Parse.Object values
-          resolve(results);
-        },
-        error: function(error) {
-          reject("Error: " + error.code + " " + error.message);
-        }
+      Parse.Cloud.run(endpoint, body).then(function(result) {
+        console.log(result);
+        resolve(result);
       });
     });    
   }
