@@ -18,6 +18,8 @@ import Parse from 'parse';
 @Injectable()
 export class ParseProvider {
 
+  private isInitialized = false;
+
   private BACKEND_URL: string = 'http://162.243.118.87:1340/parse';
   private BACKEND_APPLICATION_ID: string = '202_app_id';
   constructor(public http: Http) {
@@ -43,6 +45,7 @@ export class ParseProvider {
   }
 
   isLoggedIn(){
+    console.log(Parse.User.current());
     return Parse.User.current();
   }
 

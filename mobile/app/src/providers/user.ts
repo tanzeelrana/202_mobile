@@ -28,7 +28,11 @@ export class User {
   
   public _user: any = {};
   
-  constructor(public http: Http, public api: Api) {
+  constructor(
+    public http: Http, 
+    public api: Api
+  ) {
+    this._user = api.isLoggedIn();
   }
   
   /**
@@ -38,7 +42,7 @@ export class User {
   login(accountInfo: any) {
     return new Promise((resolve, reject) => {
       this.api.login(accountInfo).then((user)=>{
-        this._user = (<any> user).toJSON();
+        this._user = user;
         resolve(user);
       }).catch((error)=>{
         reject(error);

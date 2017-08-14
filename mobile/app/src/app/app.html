@@ -10,9 +10,9 @@
             
             <ion-item>
                 <ion-avatar item-start>
-                <img src="{{user?._user?.profilePic?.url}}">
+                <img src="{{user?._user?.get('profilePic')?._url}}">
                 </ion-avatar>
-                <h2>{{user._user.firstName}} {{user._user.lastName}}</h2>
+                <h2>{{user._user.get('firstName')}} {{user._user.get('lastName')}}</h2>
                 <p>Ugh. As if.</p>
             </ion-item>
             

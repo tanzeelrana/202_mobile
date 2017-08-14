@@ -36,13 +36,7 @@ export class Api {
   }
 
   isLoggedIn(){
-    return new Promise((resolve, reject) => {
-      this.backendProvider.isLoggedIn().then((user)=>{
-        resolve(user);
-      }).catch((error)=>{
-        reject(error);
-      });
-    });
+    return this.backendProvider.isLoggedIn();
   }
 
   login(account){
