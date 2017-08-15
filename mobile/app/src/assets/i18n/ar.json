@@ -31,10 +31,10 @@
   "WELCOME_INTRO" : "نقطة الانطلاق لتطبيق Ionic العظيم الخاص بك",
 
   "SETTINGS_TITLE": "إعدادات",
-  "SETTINGS_OPTION1": "خيار 1",
-  "SETTINGS_OPTION2": "خيار 2",
-  "SETTINGS_OPTION3": "خيار 3",
-  "SETTINGS_OPTION4": "خيار 4",
+  "SETTINGS_OPTION_1": "خيار 1",
+  "SETTINGS_OPTION_2": "خيار 2",
+  "SETTINGS_OPTION_3": "خيار 3",
+  "SETTINGS_OPTION_4": "خيار 4",
 
   "SETTINGS_PROFILE_BUTTON": "تعديل الملف الشخصي",
 

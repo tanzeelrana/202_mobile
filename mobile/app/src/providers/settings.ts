@@ -16,6 +16,7 @@ export class Settings {
 
   constructor(public storage: Storage, defaults: any) {
     this._defaults = defaults;
+    this.load();
   }
 
   load() {

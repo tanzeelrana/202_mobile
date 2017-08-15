@@ -31,10 +31,10 @@
   "WELCOME_INTRO" : "あなたのすばらしいIonicアプリの出発点",
 
   "SETTINGS_TITLE": "設定",
-  "SETTINGS_OPTION1": "オプション 1",
-  "SETTINGS_OPTION2": "オプション 2",
-  "SETTINGS_OPTION3": "オプション 3",
-  "SETTINGS_OPTION4": "オプション 4",
+  "SETTINGS_OPTION_1": "オプション 1",
+  "SETTINGS_OPTION_2": "オプション 2",
+  "SETTINGS_OPTION_3": "オプション 3",
+  "SETTINGS_OPTION_4": "オプション 4",
 
   "SETTINGS_PROFILE_BUTTON" : "プロフィールの編集",
 

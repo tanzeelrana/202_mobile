@@ -18,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 
 export class SettingsPage {
+  
   // Our local settings object
   options: any;
 
@@ -45,9 +46,9 @@ export class SettingsPage {
 
   _buildForm() {
     let group: any = {
-      option1: [this.options.option1],
-      option2: [this.options.option2],
-      option3: [this.options.option3]
+      _DISABLE_TUTORIAL: [this.options._DISABLE_TUTORIAL],
+      _2: [this.options._2],
+      _3: [this.options._3]
     };
 
     switch (this.page) {
@@ -60,7 +61,6 @@ export class SettingsPage {
         break;
     }
     this.form = this.formBuilder.group(group);
-
     // Watch the form for changes, and
     this.form.valueChanges.subscribe((v) => {
       this.settings.merge(this.form.value);

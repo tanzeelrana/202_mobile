@@ -40,6 +40,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ParseProvider } from '../providers/parse/parse';
 import { StorageProvider } from '../providers/storage/storage';
 import { TenantsProvider } from '../providers/tenants/tenants';
+import { MenuProvider } from '../providers/menu/menu';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -55,10 +56,11 @@ export function provideSettings(storage: Storage) {
    * these values will not overwrite the saved values (this can be done manually if desired).
    */
   return new Settings(storage, {
-    option1: true,
-    option2: 'Ionitron J. Framework',
-    option3: '3',
-    option4: 'Hello'
+    _1: true,
+    _2: 'Ionitron J. Framework',
+    _3: '3',
+    _4: 'Hello',
+    _DISABLE_TUTORIAL: false
   });
 }
 
@@ -130,6 +132,7 @@ export function provideSettings(storage: Storage) {
     ParseProvider,
     StorageProvider,
     TenantsProvider,
+    MenuProvider,
   ]
 })
 export class AppModule { }

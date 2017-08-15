@@ -31,10 +31,10 @@
   "WELCOME_INTRO" : "The starting point for your next great Ionic app",
 
   "SETTINGS_TITLE": "Settings",
-  "SETTINGS_OPTION1": "Option 1",
-  "SETTINGS_OPTION2": "Option 2",
-  "SETTINGS_OPTION3": "Option 3",
-  "SETTINGS_OPTION4": "Option 4",
+  "SETTINGS_OPTION_1": "Option 1",
+  "SETTINGS_OPTION_2": "Option 2",
+  "SETTINGS_OPTION_3": "Option 3",
+  "SETTINGS_OPTION_4": "Option 4",
 
   "SETTINGS_PROFILE_BUTTON" : "Edit Profile",
 
@@ -78,5 +78,7 @@
   "COMPANY_STATUS": "Status",
   "TENANT_CREATE_TITLE": "New Tenant",
   "TENANT_CREATE_CHOOSE_IMAGE": "Add Image",
-  "TENANT_CREATE_CHOOSE_COMPANY_IMAGE": "Add Company Image"
+  "TENANT_CREATE_CHOOSE_COMPANY_IMAGE": "Add Company Image",
+  "SETTINGS_OPTION_SHOW_TUTORIAL": "Show Tutotial",
+  "TUTORIAL_DISABLE_BUTTON": "Disable Tutorial"
 }

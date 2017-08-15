@@ -33,10 +33,10 @@
   "WELCOME_INTRO" : "Prvý krok vašej novej Ionic aplikácie.",
 
   "SETTINGS_TITLE": "Nastavenia",
-  "SETTINGS_OPTION1": "Možnosť 1",
-  "SETTINGS_OPTION2": "Možnosť 2",
-  "SETTINGS_OPTION3": "Možnosť 3",
-  "SETTINGS_OPTION4": "Možnosť 4",
+  "SETTINGS_OPTION_1": "Možnosť 1",
+  "SETTINGS_OPTION_2": "Možnosť 2",
+  "SETTINGS_OPTION_3": "Možnosť 3",
+  "SETTINGS_OPTION_4": "Možnosť 4",
 
   "SETTINGS_PROFILE_BUTTON" : "Upraviť profil",
 

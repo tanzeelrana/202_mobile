@@ -31,10 +31,10 @@
   "WELCOME_INTRO" : "Il punto di partenza per la tua prossima applicazione Ionic",
 
   "SETTINGS_TITLE": "Impostazioni",
-  "SETTINGS_OPTION1": "Opzione 1",
-  "SETTINGS_OPTION2": "Opzione 2",
-  "SETTINGS_OPTION3": "Opzione 3",
-  "SETTINGS_OPTION4": "Opzione 4",
+  "SETTINGS_OPTION_1": "Opzione 1",
+  "SETTINGS_OPTION_2": "Opzione 2",
+  "SETTINGS_OPTION_3": "Opzione 3",
+  "SETTINGS_OPTION_4": "Opzione 4",
 
   "SETTINGS_PROFILE_BUTTON" : "Modifica Profilo",
 

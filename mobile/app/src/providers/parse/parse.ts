@@ -45,8 +45,9 @@ export class ParseProvider {
   }
 
   isLoggedIn(){
-    console.log(Parse.User.current());
-    return Parse.User.current();
+    let user = Parse.User.current();
+    console.log(user);
+    return user;
   }
 
   login(account){

@@ -21,10 +21,10 @@
   "TUTORIAL_SLIDE3_DESCRIPTION": "ต้องการความช่วยเหลือ? ลองอ่าน tutorial ฉบับเต็มจากไฟล์ README",
 
   "SETTINGS_TITLE": "ตั้งค่า",
-  "SETTINGS_OPTION1": "ตัวเลือก 1",
-  "SETTINGS_OPTION2": "ตัวเลือก 2",
-  "SETTINGS_OPTION3": "ตัวเลือก 3",
-  "SETTINGS_OPTION4": "ตัวเลือก 4",
+  "SETTINGS_OPTION_1": "ตัวเลือก 1",
+  "SETTINGS_OPTION_2": "ตัวเลือก 2",
+  "SETTINGS_OPTION_3": "ตัวเลือก 3",
+  "SETTINGS_OPTION_4": "ตัวเลือก 4",
 
   "SETTINGS_PAGE_PROFILE": "แก้ไขข้อมูลส่วนตัว",
 

@@ -1,4 +1,4 @@
-<ion-menu [content]="content">
+<ion-menu id="leftMenu" [content]="content">
     <ion-header>
         <ion-toolbar>
         <ion-title>Pages</ion-title>
@@ -8,7 +8,7 @@
     <ion-content>
         <ion-list>
             
-            <ion-item>
+            <ion-item *ngIf="user._user" >
                 <ion-avatar item-start>
                 <img src="{{user?._user?.get('profilePic')?._url}}">
                 </ion-avatar>

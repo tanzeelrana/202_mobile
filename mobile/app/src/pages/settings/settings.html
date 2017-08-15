@@ -10,19 +10,20 @@
 
   <form [formGroup]="form" *ngIf="settingsReady">
     <ion-list *ngIf="page == 'main'">
+      
       <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION1' | translate }}</ion-label>
-        <ion-toggle formControlName="option1"></ion-toggle>
+        <ion-label>{{ 'SETTINGS_OPTION_SHOW_TUTORIAL' | translate }}</ion-label>
+        <ion-toggle formControlName="_DISABLE_TUTORIAL"></ion-toggle>
       </ion-item>
 
       <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION2' | translate }}</ion-label>
-        <ion-input formControlName="option2"></ion-input>
+        <ion-label>{{ 'SETTINGS_OPTION_2' | translate }}</ion-label>
+        <ion-input formControlName="_2"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION3' | translate }}</ion-label>
-        <ion-select formControlName="option3">
+        <ion-label>{{ 'SETTINGS_OPTION_3' | translate }}</ion-label>
+        <ion-select formControlName="_3">
           <ion-option value="1" checked="true">1</ion-option>
           <ion-option value="2">2</ion-option>
           <ion-option value="3">3</ion-option>
@@ -36,7 +37,7 @@
 
     <ion-list *ngIf="page == 'profile'">
       <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION4' | translate }}</ion-label>
+        <ion-label>{{ 'SETTINGS_OPTION_4' | translate }}</ion-label>
         <ion-input formControlName="option4"></ion-input>
       </ion-item>
     </ion-list>

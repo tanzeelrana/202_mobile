@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav, Config } from 'ionic-angular';
+import { Platform, Nav, Config, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { CardsPage } from '../pages/cards/cards';
@@ -18,13 +18,14 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { Settings } from '../providers/providers';
 import { User } from '../providers/user';
 import { TranslateService } from '@ngx-translate/core'
+import { MenuProvider } from '../providers/menu/menu';
 
 @Component({
   templateUrl: './app.html'
 })
 export class MyApp {
-  rootPage = FirstRunPage;
   
+  rootPage = FirstRunPage;
   @ViewChild(Nav) nav: Nav;
 
   pages: any[] = [
@@ -50,7 +51,8 @@ export class MyApp {
     public user: User,
     private config: Config, 
     private statusBar: StatusBar, 
-    private splashScreen: SplashScreen
+    private splashScreen: SplashScreen,
+    private menuProvider: MenuProvider
   ) {
     this.initTranslate();
   }
