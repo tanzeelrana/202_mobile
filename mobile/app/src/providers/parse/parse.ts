@@ -18,8 +18,6 @@ import Parse from 'parse';
 @Injectable()
 export class ParseProvider {
 
-  private isInitialized = false;
-
   private BACKEND_URL: string = 'http://162.243.118.87:1340/parse';
   private BACKEND_APPLICATION_ID: string = '202_app_id';
   constructor(public http: Http) {
@@ -31,33 +29,53 @@ export class ParseProvider {
     Parse.serverURL = this.BACKEND_URL;
   }
 
-  userHasRole(roleName) {
-    return new Promise((resolve, reject) => {
-      var query = new Parse.Query(Parse.Role);
-      query.equalTo("name", roleName);
-      query.equalTo("users", this.isLoggedIn());
-      query.find().then((roles)=> {
-          resolve(roles.length > 0);
-      }).catch((error)=>{
-        reject(error);
-      });
-    });      
-  }
-
   isLoggedIn(){
     let user = Parse.User.current();
-    console.log(user);
     return user;
   }
 
+  getNew(object: String){
+    var ParseObject = Parse.Object.extend(object);
+    var parseObject = new ParseObject();
+    return parseObject;
+  }
+
+  save(parseObject){
+    return new Promise((resolve, reject) => {
+      parseObject.save(null, { useMasterKey: true }).then(
+        function(parseObject) {
+          resolve(parseObject);
+        },
+        function(parseObject, error) {
+          reject(error);
+        }
+      );
+    });
+  }
+
+  getUserRoles(){
+    return new Promise((resolve, reject) => {
+      var query = new Parse.Query(Parse.Role);
+      query.equalTo("users", Parse.User.current());
+      query.ascending("level");
+      query.find().then((roles)=> {
+        resolve(roles);
+      }).catch((error)=>{
+        reject(error);
+      });
+    });
+  }
+
   login(account){
+    let me = this;
     return new Promise((resolve, reject) => {
       Parse.User.logIn(account["email"], account["password"], {
           success: function(user) {
-              resolve(user);
+            me.getUserRoles();
+            resolve(user);
           },
           error: function(user, error) {
-              reject(error);
+            reject(error);
           }
         });
     });

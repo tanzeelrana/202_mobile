@@ -1,0 +1,63 @@
+<!--
+  Generated template for the ClientsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button>
+        <ion-icon name="contact"></ion-icon>
+      </button>
+    </ion-buttons>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'CLIENTS_TITLE' | translate }}</ion-title>
+    <ion-buttons end>
+      <!-- <button ion-button (click)="()">
+        <ion-icon name="more"></ion-icon>
+      </button> -->
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-searchbar></ion-searchbar>
+    <ion-list inset>
+      <ion-item-sliding *ngFor="let client of clientsCtrl.clients">
+        <ion-item (click)="clientSelected(client)">
+          <ion-avatar item-start>
+            <img src="{{ client.get('logo')._url }}">
+          </ion-avatar>
+          <h2>{{ client.get('name') }}</h2>
+          <p>{{ client.get('addressString') }}</p>
+        </ion-item>
+        <ion-item-options side="right" >
+          <!-- <button ion-button color="primary" (click)="text(client)">
+            <ion-icon name="text"></ion-icon>
+            Text
+          </button> -->
+          <button ion-button color="secondary" (click)="call(client)">
+            <ion-icon name="call"></ion-icon>
+            Call
+          </button>
+        </ion-item-options>
+        <ion-item-options side="left">
+          <button ion-button color="primary" (click)="navigate(client)">
+            <ion-icon name="ios-navigate-outline"></ion-icon>
+            Go
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <ion-fab right bottom >
+        <button ion-fab color="primary" (click)="addClient()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>  
+
+</ion-content>

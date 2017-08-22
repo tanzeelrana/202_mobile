@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
-
+import { Events, NavController, ToastController } from 'ionic-angular';
 import { MainPage } from '../../pages/pages';
-
-import { User } from '../../providers/user';
-
 import { TranslateService } from '@ngx-translate/core';
+import { User } from '../../providers/user';
 
 
 @Component({
@@ -17,8 +14,8 @@ export class LoginPage {
   // If you're using the username field with or without email, make
   // sure to add it to the type
   account: { email: string, password: string } = {
-    email: 'tanzeel',
-    password: 'tanzeel'
+    email: '',
+    password: 'qex'
   };
 
   // Our translated text strings
@@ -28,23 +25,29 @@ export class LoginPage {
     public user: User,
     public toastCtrl: ToastController,
     public translateService: TranslateService,
+    public events: Events
   ) {
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
     })
+
+    this.events.subscribe('getRootPageOnLogin',(rootPage)=>{
+      this.navCtrl.setRoot(rootPage);
+    })
   }
+  
   
 
   // Attempt to login in through our User service
   doLogin() {
     this.user.login(this.account).then((user) => {
-      this.navCtrl.push(MainPage);
+      this.events.publish('enableMenu');
+      this.events.publish('getRootPage','OnLogin');
     }).catch((err) => {
-      this.navCtrl.push(MainPage);
       // Unable to log in
       let toast = this.toastCtrl.create({
         message: this.loginErrorString + ' ' + err.message ,
-        duration: 3000,
+        duration: 6000,
         position: 'top'
       });
       toast.present();

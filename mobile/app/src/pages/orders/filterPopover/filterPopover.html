@@ -1,0 +1,18 @@
+<ion-list class="popover-page">
+  
+  <ion-list-header>
+    Filters
+  </ion-list-header>
+  
+  <ion-item *ngIf="filters['date']" >
+    <ion-label>{{filters['date'].name}}</ion-label>
+    <ion-checkbox [(ngModel)]="filters['date'].selected"></ion-checkbox>
+  </ion-item>
+
+  <ion-item *ngIf="filters['client']" >
+    <ion-label>{{filters['client'].name}}</ion-label>
+    <ion-checkbox [(ngModel)]="filters['client'].selected"></ion-checkbox>
+  </ion-item>
+
+  
+</ion-list>

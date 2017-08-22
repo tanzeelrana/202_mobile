@@ -24,16 +24,6 @@ export class TenantsProvider {
     this.query().catch((error)=>{});
   }
 
-  testRole(){
-    return new Promise((resolve, reject) => {
-      this.api.userHasRole('super').then((result)=>{
-        console.log(result);
-      }).catch((error)=>{
-        console.log(error);
-      });
-    });
-  }
-
   query(params?: any) : any {
     return new Promise((resolve, reject) => {
       this.api.get("Tenant", []).then((tenants)=>{

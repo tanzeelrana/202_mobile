@@ -3,17 +3,22 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, Http } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler, IonicPageModule } from 'ionic-angular';
 import { Storage, IonicStorageModule } from '@ionic/storage';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { MyApp } from './app.component';
 
 import { CardsPage } from '../pages/cards/cards';
 import { ContentPage } from '../pages/content/content';
+import { FeedPage } from '../pages/feed/feed';
+import { HomePage } from '../pages/home/home';
 import { ItemCreatePage } from '../pages/item-create/item-create';
 import { ItemDetailPage } from '../pages/item-detail/item-detail';
 import { ListMasterPage } from '../pages/list-master/list-master';
 import { LoginPage } from '../pages/login/login';
 import { MapPage } from '../pages/map/map';
 import { MenuPage } from '../pages/menu/menu';
+import { OrdersPage } from '../pages/orders/orders';
+import { PopoverPage } from '../pages/orders/filterPopover/filterPopover';
 import { SearchPage } from '../pages/search/search';
 import { SettingsPage } from '../pages/settings/settings';
 import { SignupPage } from '../pages/signup/signup';
@@ -41,6 +46,9 @@ import { ParseProvider } from '../providers/parse/parse';
 import { StorageProvider } from '../providers/storage/storage';
 import { TenantsProvider } from '../providers/tenants/tenants';
 import { MenuProvider } from '../providers/menu/menu';
+import { OrdersProvider } from '../providers/orders/orders';
+import { ClientsProvider } from '../providers/clients/clients';
+import { MapsProvider } from '../providers/maps/maps';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -69,12 +77,16 @@ export function provideSettings(storage: Storage) {
     MyApp,
     CardsPage,
     ContentPage,
+    FeedPage,
+    HomePage,
     ItemCreatePage,
     ItemDetailPage,
     ListMasterPage,
     LoginPage,
     MapPage,
     MenuPage,
+    OrdersPage,
+    PopoverPage,
     SearchPage,
     SettingsPage,
     SignupPage,
@@ -104,12 +116,16 @@ export function provideSettings(storage: Storage) {
     MyApp,
     CardsPage,
     ContentPage,
+    FeedPage,
+    HomePage,
     ItemCreatePage,
     ItemDetailPage,
     ListMasterPage,
     LoginPage,
     MapPage,
     MenuPage,
+    OrdersPage,
+    PopoverPage,
     SearchPage,
     SettingsPage,
     SignupPage,
@@ -125,6 +141,7 @@ export function provideSettings(storage: Storage) {
     User,
     Camera,
     GoogleMaps,
+    Geolocation,
     SplashScreen,
     StatusBar,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
@@ -133,6 +150,9 @@ export function provideSettings(storage: Storage) {
     StorageProvider,
     TenantsProvider,
     MenuProvider,
+    OrdersProvider,
+    ClientsProvider,
+    MapsProvider,
   ]
 })
 export class AppModule { }

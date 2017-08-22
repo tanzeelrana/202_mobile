@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
-
+import { Events } from 'ionic-angular';
 import { ParseProvider } from './parse/parse';
 import * as appConfig from '../app/app.config';
 
@@ -14,7 +14,8 @@ export class Api {
   backendProvider: any;
 
   constructor(
-    public http: Http
+    public http: Http,
+    public events: Events
   ) {
     this.init();
   }
@@ -25,10 +26,11 @@ export class Api {
     }
   }
 
-  userHasRole(role){
+  getUserRoles(){
     return new Promise((resolve, reject) => {
-      this.backendProvider.userHasRole(role).then((user)=>{
-        resolve(user);
+      this.backendProvider.getUserRoles().then((roles)=>{
+        this.events.publish('loggedInUserRoles',roles);
+        resolve(roles);
       }).catch((error)=>{
         reject(error);
       });
@@ -36,12 +38,15 @@ export class Api {
   }
 
   isLoggedIn(){
-    return this.backendProvider.isLoggedIn();
+    let user = this.backendProvider.isLoggedIn();
+    if(user){this.getUserRoles()}
+    return user;
   }
 
   login(account){
     return new Promise((resolve, reject) => {
       this.backendProvider.login(account).then((user)=>{
+        this.getUserRoles();
         resolve(user);
       }).catch((error)=>{
         reject(error);
@@ -52,6 +57,7 @@ export class Api {
   logOut(){
     return new Promise((resolve, reject) => {
       this.backendProvider.logOut().then(() => {
+        this.events.publish('loggedInUserRoles',[]);
         resolve();
       }).catch((error) => {
         reject(error);
@@ -95,5 +101,9 @@ export class Api {
     return new Promise((resolve, reject) => {
       
     });
+  }
+
+  getNew(endpoint: string){
+    return this.backendProvider.getNew(endpoint);
   }
 }

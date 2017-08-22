@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
-import { MenuController, NavController } from 'ionic-angular';
-
+import { MenuController, NavController, Events } from 'ionic-angular';
 import { WelcomePage } from '../welcome/welcome';
-
 import { TranslateService } from '@ngx-translate/core';
 import { Settings } from '../../providers/settings';
 import { MenuProvider } from '../../providers/menu/menu';
-
-
 
 export interface Slide {
   title: string;
@@ -28,7 +24,7 @@ export class TutorialPage {
     public menu: MenuController, 
     translate: TranslateService,
     public settings: Settings,
-    public menuProvider: MenuProvider
+    private events: Events
   ) {
     translate.get(["TUTORIAL_SLIDE1_TITLE",
       "TUTORIAL_SLIDE1_DESCRIPTION",
@@ -65,6 +61,10 @@ export class TutorialPage {
       animate: true,
       direction: 'forward'
     });
+  }
+
+  ionViewWillLoad(){
+    this.events.publish('disableMenu');
   }
 
   onSlideChangeStart(slider) {

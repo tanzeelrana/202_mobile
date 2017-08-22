@@ -21,9 +21,7 @@ export class TenantCreatePage {
   @ViewChild('companyLogoFileInput') companyLogoFileInput;
   
   isReadyToSave: boolean;
-
   item: any;
-
   form: FormGroup;
 
   constructor(

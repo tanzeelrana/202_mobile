@@ -80,5 +80,9 @@
   "TENANT_CREATE_CHOOSE_IMAGE": "Add Image",
   "TENANT_CREATE_CHOOSE_COMPANY_IMAGE": "Add Company Image",
   "SETTINGS_OPTION_SHOW_TUTORIAL": "Show Tutotial",
-  "TUTORIAL_DISABLE_BUTTON": "Disable Tutorial"
+  "TUTORIAL_DISABLE_BUTTON": "Disable Tutorial",
+  "FEED_TAB_TITLE" : "Feed",
+  "ORDERS_TAB_TITLE" : "Orders",
+  "CLIENTS_TITLE": "Clients",
+  "ADD_CLIENT_TITLE": "Add New Client"
 }
