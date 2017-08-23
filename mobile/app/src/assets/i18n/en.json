@@ -84,5 +84,6 @@
   "FEED_TAB_TITLE" : "Feed",
   "ORDERS_TAB_TITLE" : "Orders",
   "CLIENTS_TITLE": "Clients",
-  "ADD_CLIENT_TITLE": "Add New Client"
+  "ADD_CLIENT_TITLE": "Add New Client",
+  "ADDRESS": "Address"
 }

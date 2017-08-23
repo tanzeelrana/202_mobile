@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Camera } from '@ionic-native/camera';
@@ -25,7 +25,7 @@ export class ClientPage {
   isReadyToSave: boolean;
   form: FormGroup;
   client: any;
-  isNew = false;
+  isNew = true;
   isEdit = false;
   public type= "password";
   public showPass = false;
@@ -37,12 +37,16 @@ export class ClientPage {
     public viewCtrl: ViewController, 
     formBuilder: FormBuilder, 
     public camera: Camera,
-    public api: Api
+    public api: Api,
+    public alertCtrl: AlertController
   ) {
     translate.setDefaultLang('en');
     translate.use('en');
-    this.isNew = navParams.data.isNew; 
-    this.isEdit = navParams.data.isEdit;
+    console.log(navParams.data);
+    if(JSON.stringify(navParams.data) !== JSON.stringify({})){
+      this.isNew = navParams.data.isNew;
+      this.isEdit = navParams.data.isEdit;
+    }
     let clientModel = new Client(navParams.data.client);
     this.client = clientModel.getClientFormObj();
     this.form = formBuilder.group(this.client);
@@ -58,6 +62,14 @@ export class ClientPage {
     
   }
 
+  addMoreEmail(){
+    console.log("addMoreEmail email");
+  }
+
+  addMoreAddress(){
+    console.log("addMoreAddress email");
+  }
+
   toggleEdit(){
     this.isEdit = !this.isEdit;
   }
@@ -69,6 +81,17 @@ export class ClientPage {
     }else{
         this.type = "password";
     }
+  }
+  
+  save(){
+    console.log("save client");
+    if (!this.form.valid) { 
+      this.showInvalidFromAlert();
+      return; 
+    }else{
+      this.viewCtrl.dismiss(this.form.value);
+    }
+    
   }
 
   getPicture(source) {
@@ -112,13 +135,13 @@ export class ClientPage {
     this.viewCtrl.dismiss();
   }
 
-  /**
-   * The user is done and wants to create the item, so return it
-   * back to the presenter.
-   */
-  done() {
-    if (!this.form.valid) { return; }
-    this.viewCtrl.dismiss(this.form.value);
+  showInvalidFromAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Incomplete',
+      subTitle: 'The information provided is not sufficient to create a new client. Please review what you might have had missed and try again. Thanks',
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
 }

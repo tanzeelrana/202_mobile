@@ -20,6 +20,7 @@ export class Client {
             __type:"Pointer",
             className:"Phone",
         }],
+        email:["",Validators.email],
         emails:[
             [{
                 value:"",
