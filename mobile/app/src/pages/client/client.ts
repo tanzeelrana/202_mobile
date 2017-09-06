@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController, AlertController } 
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Camera } from '@ionic-native/camera';
-import { Api } from '../../providers/api';
+import { ClientsProvider } from '../../providers/clients/clients';
 import { Client } from '../../models/clitent';
 
 /**
@@ -37,7 +37,7 @@ export class ClientPage {
     public viewCtrl: ViewController, 
     formBuilder: FormBuilder, 
     public camera: Camera,
-    public api: Api,
+    public clientCtrl: ClientsProvider,
     public alertCtrl: AlertController
   ) {
     translate.setDefaultLang('en');
@@ -69,6 +69,10 @@ export class ClientPage {
   addMoreAddress(){
     console.log("addMoreAddress email");
   }
+  
+  addMorePhone(){
+    console.log("addMorePhone");
+  }
 
   toggleEdit(){
     this.isEdit = !this.isEdit;
@@ -89,9 +93,17 @@ export class ClientPage {
       this.showInvalidFromAlert();
       return; 
     }else{
-      this.viewCtrl.dismiss(this.form.value);
-    }
-    
+      this.clientCtrl.newClient(this.form.value).then((client)=>{
+        console.log(client);
+        this.viewCtrl.dismiss(this.form.value);
+      }).catch((error)=>{
+        console.error(error);
+      });
+    } 
+  }
+
+  resetPassword(){
+    console.log("resetPassword");
   }
 
   getPicture(source) {
@@ -118,14 +130,16 @@ export class ClientPage {
     reader.onload = (readerEvent) => {
       console.log(source);
       let imageData = (readerEvent.target as any).result;
-      me.form.value.logo.url = imageData;
+      me.form.value.logo = imageData;
     };
-
     reader.readAsDataURL(event.target.files[0]);
   }
 
   getProfileImageStyle(source) {
-    return 'url(' + this.form.value[source].url + ')'
+    if(this.form.value[source]['url']){
+      return 'url(' + this.form.value[source]['url'] + ')'
+    }
+    return 'url(' + this.form.value[source] + ')'
   }
 
   /**
@@ -135,10 +149,13 @@ export class ClientPage {
     this.viewCtrl.dismiss();
   }
 
-  showInvalidFromAlert() {
+  showInvalidFromAlert(title?, subTitle?) {
+    if(title == undefined ){title = "Incomplete";}
+    if(subTitle == undefined ){subTitle = "The information provided is not sufficient to create a new client. Please review what you might have had missed and try again. Thanks";}
+    
     let alert = this.alertCtrl.create({
-      title: 'Incomplete',
-      subTitle: 'The information provided is not sufficient to create a new client. Please review what you might have had missed and try again. Thanks',
+      title: title,
+      subTitle: subTitle,
       buttons: ['OK']
     });
     alert.present();

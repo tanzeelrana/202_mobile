@@ -30,21 +30,21 @@
 
 <ion-content padding>
 
-  <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="save()">
     
     <ion-item-group>
-      <ion-item-divider color="light">Client Info</ion-item-divider>
+      <ion-item-divider color="light">Business Info</ion-item-divider>
       <div class="profile-image-wrapper" (click)="getPicture('companyLogoFileInput')">
-        <div class="profile-image-placeholder" *ngIf="!this.form?.value?.logo?.url">
+        <div class="profile-image-placeholder" *ngIf="!this.form?.value?.logo">
           <ion-icon name="add"></ion-icon>
           <div>
             {{ 'TENANT_CREATE_CHOOSE_COMPANY_IMAGE' | translate }}
           </div>
         </div>
-        <div class="profile-image" [style.backgroundImage]="getProfileImageStyle('logo')" *ngIf="this.form?.value?.logo?.url"></div>
+        <div class="profile-image" [style.backgroundImage]="getProfileImageStyle('logo')" *ngIf="this.form?.value?.logo"></div>
       </div>
       <ion-item>
-        <ion-label>
+        <ion-label item-start>
           {{ 'NAME' | translate }}
         </ion-label>
         <ion-input type="text" formControlName="name"></ion-input>
@@ -103,7 +103,7 @@
       </ion-item>
     </ion-item-group>
     <ng-template #resetCredentials>
-      <button ion-button icon-left>
+      <button ion-button icon-left type="button" (click)="resetPassword()">
         <ion-icon name="ios-key-outline"></ion-icon>
         Reset Password
       </button>

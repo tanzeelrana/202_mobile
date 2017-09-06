@@ -27,6 +27,7 @@ export class ParseProvider {
   private init(){
     Parse.initialize(this.BACKEND_APPLICATION_ID);
     Parse.serverURL = this.BACKEND_URL;
+    console.log("init");
   }
 
   isLoggedIn(){
@@ -110,9 +111,12 @@ export class ParseProvider {
 
   post(endpoint: string, body: any, options?: RequestOptions) {
     return new Promise((resolve, reject) => {
+      body['currentUser'] = Parse.User.current().toJSON();
       Parse.Cloud.run(endpoint, body).then(function(result) {
         console.log(result);
         resolve(result);
+      }).catch((error)=>{
+        reject(error);
       });
     });    
   }

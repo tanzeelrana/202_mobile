@@ -85,5 +85,6 @@
   "ORDERS_TAB_TITLE" : "Orders",
   "CLIENTS_TITLE": "Clients",
   "ADD_CLIENT_TITLE": "Add New Client",
-  "ADDRESS": "Address"
+  "ADDRESS": "Address",
+  "BUSINESS_NAME": "Business Name"
 }

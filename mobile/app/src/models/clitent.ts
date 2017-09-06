@@ -6,11 +6,7 @@ export class Client {
     obj = {
         name:["",Validators.required],
         addressString:["",Validators.required],
-        logo:[{
-            __type:"File",
-            name:"",
-            url:""
-        }],
+        profilePic:[""],
         address:[{
             __type:"Pointer",
             className:"Address",
@@ -22,10 +18,7 @@ export class Client {
         }],
         email:["",Validators.email],
         emails:[
-            [{
-                value:"",
-                default:true
-            }]
+            
         ],
         addresses:[{
             __type:"Relation",
@@ -44,9 +37,16 @@ export class Client {
     ){
         if(client){
             var tmp = client.toJSON();
-            for (let f in this.obj) {
-                this.obj[f][0] = tmp[f];
+            for (let f in tmp) {
+                if(this.obj[f]){
+                    this.obj[f][0] = tmp[f];
+                }else{
+                    this.obj[f] = tmp[f];
+                }
             }
+            this.obj["username"]=[""];
+            this.obj["password"]=[""];
+            // console.log(this.obj);
         }
     }
 
